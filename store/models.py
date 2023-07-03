@@ -36,3 +36,11 @@ class Product(models.Model):
     
     def __str__(self):
         return self.name
+
+class Lookbook_Image(models.Model):
+    lookbook = models.ForeignKey('Lookbook', on_delete=models.CASCADE, related_name='lookbook_Image')
+    image = models.ImageField(upload_to='lookbooks/images/')
+
+class Lookbook(models.Model):
+    name = models.CharField(max_length=255)
+    date = models.DateField(auto_now_add=True)

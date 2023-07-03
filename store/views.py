@@ -10,9 +10,11 @@ def index(request):
         mobile = True
     
     products = Product.objects.all()
+    lookbooks = Lookbook.objects.all()
 
     data = {
         'products': products,
+        'lookbooks': lookbooks,
         'mobile': mobile
     }
     return render(request, 'user/index.html', data)

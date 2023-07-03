@@ -491,7 +491,14 @@ body.menu #banner #menu_box {
 }
 
 
-
+#lookbooks {
+    height: 90%;
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 5% 0px;
+}
 #lookbooks h1 {
     color: var(--black);
     line-height: 100%;
@@ -504,4 +511,12 @@ body.menu #banner #menu_box {
     font-size: 1.4rem;
     color: var(--black);
     margin: 0px;
+}
+#lookbooks #box {
+    width: 100%;
+    height: calc(90% - 40px);
+    overflow: hidden;
+    border-radius: 20px;
+    border: 0px;
+    background-color: #C1C1C1;
 }
