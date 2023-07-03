@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+
+    {% comment %} Fonts {% endcomment %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+    {% comment %} Styles {% endcomment %}
+    <link rel="stylesheet" href="{% static 'style/main.css' %}">
+</head>
+<body class="s">
+
+    <div id="banner">
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" id="main_logo" viewBox="0 0 107 27">
+                <text id="SICK-SERIES" transform="translate(0 22)" fill="#100303" font-size="20" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">SICK-SERIES</tspan></text>
+            </svg>     
+            <div id="search" class="pc_only">
+                <form method="GET">
+                    <input type="text" name="search" placeholder="SEARCH">
+                    <button type="submit"><img src="{% static 'img/icon/search.png' %}" alt=""></button>
+                </form>
+            </div>     
+        </div>
+        <div id="nav">
+            <div id="background"></div>
+            <div id="content">
+                <div id="twins">
+                    <img id="cart" src="{% static 'img/icon/cart.png' %}">
+                    <div id="profile"></div>
+                </div>
+                <div id="menu" onclick="menu()">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+            <div id="menu_box">
+                <div id="search" class="mobile_only">
+                    <form method="GET">
+                        <input type="text" name="search" placeholder="SEARCH">
+                        <button type="submit"><img src="{% static 'img/icon/search.png' %}" alt=""></button>
+                    </form>
+                </div> 
+                <ul>
+                    <li>Alle Produkte</li>
+                    <li>Fashion</li>
+                    <li>Riding Gear</li>
+                    <li>Accessoires</li>
+                    <li>Schuhe</li>
+                    <li>Sick Members Club</li>
+                    <li>Service</li>
+                    <li>Movies</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="main_content">{% block content %}{% endblock %}</div>
+
+
+    {% comment %} JavaScripts {% endcomment %}
+    <script src="{% static 'script/events.js' %}"></script>
+</body>
+</html>

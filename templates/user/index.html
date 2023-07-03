@@ -1,0 +1,90 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block title %}Sick-Series{% endblock %}
+
+{% block content %}
+
+
+<div id="landing" class="sticky">
+    <div id="first_slice">
+        <h1>SICK</h1>
+        <div id="mirror">
+            {% if mobile %}
+                <img src="{% static 'img/wallpapers/firstwallpaper_mobile.webp' %}" id="wallpaper">
+            {% else %}
+                <img src="{% static 'img/wallpapers/firstwallpaper_pc.webp' %}" id="wallpaper">
+            {% endif %}
+
+            <div id="products">
+                {% for product in products %}
+                    <div id="product">
+                        <div id="images">
+                            {% for image in product.product_images.all %}
+                                <img src="{{ image.image.url }}" alt="{{ product.name }} Image">
+                            {% endfor %}
+                        </div>
+                        <h2>{{ product.name }}</h2>
+                        <p>{{ product.price }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>          
+    </div>
+    <div id="second_slice">
+        <h1>SERIES</h1>
+        <div id="mirror">
+            <img src="{% static 'img/wallpapers/secondwallpaper.webp' %}">
+        </div> 
+        <div id="scroll">
+            <p>SCROLL</p>
+            <svg xmlns="http://www.w3.org/2000/svg" width="31.823" height="7.419" viewBox="0 0 31.823 7.419">
+                <g id="Group_1" data-name="Group 1" transform="translate(531.472 -253) rotate(90)">
+                <line id="Line_1" data-name="Line 1" x2="6.289" transform="translate(253.5 515.689)" fill="none" stroke="#100303" stroke-linecap="round" stroke-width="1"/>
+                <path id="Path_2" data-name="Path 2" d="M285.7,1670.226l2.642,15.334-2.642,15.334" transform="translate(-28.422 -1170)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                </g>
+            </svg>              
+        </div>         
+    </div>
+</div>
+<div id="fake"></div>
+
+
+<div id="mini_about" class="section">
+    <h1>MORE THAN JUST A BRAND - IT'S A LIFE STYLE</h1>
+    
+    <p>[SICK!] Contrary to the real meaning of the word, SICK is a compliment.Especially in sports, the word is often used to describe something cool or badass.</p>
+    <div id="image">
+        <img src="{% static 'img/wallpapers/group.webp' %}" alt="">
+    </div>
+    
+    
+</div>
+
+<div id="youtube" class="section">
+    <img src="{% static 'img/logo/youtube.png' %}" alt="Youtube.com" id="youtube_logo">
+    <div id="sick_youtube">
+        <img src="{% static 'img/logo/sick.jpg' %}" alt="Sick Series">
+        <div>
+            <h2>SICK!</h2>
+            <p>@sickworldwide - 128 videos</p>
+            <div class="subscriber">169K <span>subscribers</span></div>
+        </div>
+    </div>
+    <div id="views"><p>17,002,780 views</p></div>
+    <a href="" id="main_link">CHECK OUT CHANNEL / VIDEOS</a>
+    <div id="big_wallpaper">
+        <img src="{% static 'img/wallpapers/youtube.webp' %}" alt="">
+    </div>
+</div>
+
+<div id="lookbooks" class="section">
+    <h1>LOOK BOOK</h1>
+    <p>Unleash Your Freeride Adventure</p>
+
+    <div id="box">
+        
+    </div>
+</div>
+
+{% endblock %}
