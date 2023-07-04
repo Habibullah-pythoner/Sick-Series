@@ -82,16 +82,34 @@
     <div>
         <h1>LOOK BOOK</h1>
         <p>Unleash Your Freeride Adventure</p>
+        <div id="tabs">
+            <ul>
+                {% for lookbook in lookbooks %}
+                    <li><div id="liststyle"></div><p>{{ lookbook.name }}</p></li>
+                {% endfor %}       
+            </ul>
+            <button>SHOW ALL</button>
+        </div>
     </div>
-
-    <div id="box">
-        {% for lookbook in lookbooks %}
-            <div id="flip">
+    <div id="background">
+        <div id="container">
+            {% for lookbook in lookbooks %}
                 {% for image in lookbook.lookbook_Image.all %}
-                <img src="{{ image.image.url }}">
+                    {% if image.landscape %}
+                        <div id="image" class="landscape">
+                            <img src="{{ image.image.url }}">
+                        </div>
+                    {% else %}
+                        <div id="image">
+                            <img src="{{ image.image.url }}">
+                        </div>
+                    {% endif %}
                 {% endfor %}
+            {% endfor %}
+            <div id="action">
+                <p>DETAILS</p>
             </div>
-        {% endfor %}
+        </div>
     </div>
 </div>
 

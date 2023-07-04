@@ -1,6 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 from imagekit.models import ImageSpecField, ProcessedImageField
+from PIL import Image
+
+def determine_if_landscape(image_path):
+    img = Image.open(image_path)
+    width, height = img.size
+    return width > height
 
 class Category(models.Model):
     name = models.CharField(max_length=255, db_index=True)
@@ -40,6 +46,19 @@ class Product(models.Model):
 class Lookbook_Image(models.Model):
     lookbook = models.ForeignKey('Lookbook', on_delete=models.CASCADE, related_name='lookbook_Image')
     image = models.ImageField(upload_to='lookbooks/images/')
+    landscape = models.BooleanField()
+
+    def save(self, *args, **kwargs):
+        is_new_image = self.pk is None  # Check if it's a new image being saved
+
+        super().save(*args, **kwargs)
+
+        if is_new_image:
+            image_path = self.image.path
+            is_landscape = determine_if_landscape(image_path)
+            print(is_landscape)
+            self.landscape = is_landscape
+            self.save()
 
 class Lookbook(models.Model):
     name = models.CharField(max_length=255)
