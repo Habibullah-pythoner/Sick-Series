@@ -560,8 +560,10 @@ body.menu #banner #menu_box {
     height: calc(100% - 20px);
     position: relative;
     gap: 10px;
+    grid-auto-flow: dense;
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: subgrid;
 }
 #lookbooks #container #image, #action {
     border-radius: 10px;
@@ -600,6 +602,9 @@ body.menu #banner #menu_box {
 }
 #lookbooks .landscape {
     grid-column: 1 / span 2;
+}
+#lookbooks .long {
+    grid-row: 2 / span 2;
 }
 #lookbooks #action p {
     color: var(--black);

@@ -100,9 +100,15 @@
                             <img src="{{ image.image.url }}">
                         </div>
                     {% else %}
-                        <div id="image">
-                            <img src="{{ image.image.url }}">
-                        </div>
+                        {% if forloop.counter == lookbook.lookbook_Image.all|length|add:'-1' %}
+                            <div id="image" class="long">
+                                <img src="{{ image.image.url }}">
+                            </div>
+                        {% else %}
+                            <div id="image">
+                                <img src="{{ image.image.url }}">
+                            </div>
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
             {% endfor %}
