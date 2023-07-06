@@ -4,5 +4,6 @@ from . import views
 app_name = 'store'
 
 urlpatterns = [
-    path('', views.index, name='home')
+    path('', views.index, name='home'),
+    path('youtube', views.channel)
 ]

@@ -5,6 +5,9 @@
 
 {% block content %}
 
+<script>
+    var valid_email = false
+</script>
 
 <div id="landing" class="sticky">
     <div id="first_slice">
@@ -68,10 +71,10 @@
         <div>
             <h2>SICK!</h2>
             <p>@sickworldwide - 128 videos</p>
-            <div class="subscriber">169K <span>subscribers</span></div>
+            <div class="subscriber">{{ subs }} <span>subscribers</span></div>
         </div>
     </div>
-    <div id="views"><p>17,002,780 views</p></div>
+    <div id="views"><p>{{ views }} views</p></div>
     <a href="" id="main_link">CHECK OUT CHANNEL / VIDEOS</a>
     <div id="big_wallpaper">
         <img src="{% static 'img/wallpapers/youtube.webp' %}" alt="">
@@ -122,9 +125,9 @@
 <div id="newsletter" class="section">
     <p>Be part of the exclusive Sick Members Club and receive regular updates on releases, products and backstage reports!</p>
     <div id="email" class="border-box">
-        <input type="text" placeholder = "EMAIL">
+        <input type="text" id="email_input" placeholder = "EMAIL">
     </div>
-    <button id="email_submit">SIGN UP</button>
+    <button id="email_submit" disabled>SIGN UP</button>
 </div>
 
 <div id="footer" class="section">

@@ -1,6 +1,31 @@
 from django.shortcuts import render
 from .models import *
 from user_agents import parse
+from django.conf import settings
+import requests
+from django.http import HttpResponse
+from youtube.getdata import *
+import locale
+
+def format_number_with_commas(number):
+    locale.setlocale(locale.LC_ALL, '')  # Set the locale to the default for your system
+    formatted_number = locale.format_string('%d', number, grouping=True)
+    return formatted_number
+
+def format_number(number):
+    units = ['', 'k', 'M', 'B', 'T']  # Add more as needed for larger numbers
+    magnitude = 0
+
+    while number >= 1000 and magnitude + 1 < len(units):
+        number /= 1000
+        magnitude += 1
+
+    if magnitude > 0 and number.is_integer():
+        formatted_number = "{}{}".format(int(number), units[magnitude])
+    else:
+        formatted_number = "{:.1f}{}".format(number, units[magnitude])
+
+    return formatted_number
 
 def index(request):
     user_agent = parse(request.META.get('HTTP_USER_AGENT', ''))
@@ -12,9 +37,37 @@ def index(request):
     products = Product.objects.all()
     lookbooks = Lookbook.objects.all()
 
+    youtube = getStatics()
+
+    subs = format_number(int(youtube['subs']))
+    views = format_number_with_commas(int(youtube['views']))
+
     data = {
         'products': products,
         'lookbooks': lookbooks,
-        'mobile': mobile
+        'mobile': mobile,
+        'subs': subs,
+        'views': views,
     }
     return render(request, 'user/index.html', data)
+
+def channel(request):
+    api_link = 'https://www.googleapis.com/youtube/v3/channels'
+
+    parm = {
+        'part': 'statistics',
+        'id': 'UCPxy8EgTCarmXV7juQLhg0Q',
+        'key': settings.YOUTUBE_API_KEY,
+    }
+
+    r = requests.get(api_link, params=parm)
+
+    try:
+        subs = r.text
+    except:
+        subs = "Sadly, ye"
+
+    # Create the HttpResponse object with plain text content
+    response = HttpResponse(subs, content_type='text/plain')
+
+    return response

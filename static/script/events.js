@@ -1,5 +1,14 @@
 var menu_open = false
 
+var section = document.getElementById('landing');
+var sectionOffset = section.offsetTop;
+var sectionHeight = section.offsetHeight;
+const main_content = document.getElementById("main_content");
+var notch = document.getElementById("fake").offsetHeight;
+var emailinput = document.getElementById('email_input');
+var emailsupbit = document.getElementById('email_submit');
+var body = document.body;
+
 function menu() {
     if (!menu_open) {
         document.body.classList.add('menu')
@@ -20,11 +29,19 @@ document.addEventListener('click', function(event) {
     }
 });
 
-var section = document.getElementById('landing');
-var sectionOffset = section.offsetTop;
-var sectionHeight = section.offsetHeight;
-const main_content = document.getElementById("main_content");
-var notch = document.getElementById("fake").offsetHeight;
+
+
+emailinput.addEventListener('input', function() {
+  var email = emailinput.value;
+  var isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  if (isValid) {
+    emailsupbit.disabled = false;
+  } else {
+    emailsupbit.disabled = true;
+  }
+});
+
 
 function tick() {
   requestAnimationFrame(tick)
@@ -39,3 +56,4 @@ function tick() {
 }
 
 tick()
+
