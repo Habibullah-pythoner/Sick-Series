@@ -117,6 +117,7 @@ function tick() {
   mirror.style.maxHeight = (height + min_height) + "px"
 
   if (scrollPosition >= (1 * innerHeight)) {
+    document.querySelector('#scroll p').innerHTML = "Join The Crew"
     mirror.classList.add("animate")
   } else {
     mirror.classList.remove("animate")

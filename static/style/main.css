@@ -857,8 +857,8 @@ body.portal #parent_portal {
     position: absolute;
     width: 31px;
     height: 31px;
-    right: 15px;
-    top: 15px;
+    right: 10px;
+    top: 10px;
     padding: 3px;
 }
 iframe#portal {
@@ -866,7 +866,7 @@ iframe#portal {
     top: 50px;
     transform: translate(-50%, 0px);
     left: 50%;
-    width: calc(100% - 40px);
+    width: calc(100% - 20px);
     height: calc(100% - 50px);
     box-sizing: border-box;
 }
