@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import *
 from user_agents import parse
 from django.conf import settings
@@ -6,6 +6,8 @@ import requests
 from django.http import HttpResponse
 from youtube.getdata import *
 import locale
+from django.views.decorators.clickjacking import xframe_options_exempt
+
 
 def format_number_with_commas(number):
     locale.setlocale(locale.LC_ALL, '')  # Set the locale to the default for your system
@@ -26,6 +28,19 @@ def format_number(number):
         formatted_number = "{:.1f}{}".format(number, units[magnitude])
 
     return formatted_number
+
+
+@xframe_options_exempt
+def product_detail(request, product_id):
+    # Retrieve the product from the database using the product_id
+    product = get_object_or_404(Product, id=product_id)
+
+    # Pass the product to the template
+    context = {
+        'product': product
+    }
+
+    return render(request, 'product.html', context)
 
 def index(request):
     user_agent = parse(request.META.get('HTTP_USER_AGENT', ''))

@@ -18,19 +18,34 @@
             {% else %}
                 <img src="{% static 'img/wallpapers/firstwallpaper_pc.webp' %}" id="wallpaper">
             {% endif %}
-
-            <div id="products">
-                {% for product in products %}
-                    <div id="product">
-                        <div id="images">
-                            {% for image in product.product_images.all %}
-                                <img src="{{ image.image.url }}" alt="{{ product.name }} Image">
-                            {% endfor %}
-                        </div>
-                        <h2>{{ product.name }}</h2>
-                        <p>{{ product.price }}</p>
+            <div id="scroll_frame">
+                <div id="products">
+                    {% for product in products %}
+                    <div id="click_event" onclick="portalevent()">
+                        <a href="product/{{ product.id }}" target="portal">
+                            <div id="shade">
+                                <div id="child_shade">
+                                    <div id="product">
+                                        <div id="images">
+                                            {% for image in product.product_images.all %}
+                                                <img src="{{ image.image.url }}" alt="{{ product.name }} Image">
+                                            {% endfor %}
+                                        </div>
+                                        <h2>{{ product.name }}</h2>
+                                        <p>{{ product.price }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                {% endfor %}
+                    {% endfor %}
+                    <div id="shade" class="wide">
+                        <p>THAT IS NOT IT!</p>
+                        <a href="">
+                            <button>MORE MERCHES</button>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>          
     </div>
@@ -95,8 +110,9 @@
         </div>
     </div>
     <div id="background">
+        {% for lookbook in lookbooks %}
         <div id="container">
-            {% for lookbook in lookbooks %}
+            
                 {% for image in lookbook.lookbook_Image.all %}
                     {% if image.landscape %}
                         <div id="image" class="landscape">
@@ -114,11 +130,12 @@
                         {% endif %}
                     {% endif %}
                 {% endfor %}
-            {% endfor %}
+            
             <div id="action">
                 <p>DETAILS</p>
             </div>
         </div>
+        {% endfor %}
     </div>
 </div>
 
@@ -172,5 +189,7 @@
 
     <p id="copyright">© 2023 Sick Series</p>
 </div>
+
+
 
 {% endblock %}

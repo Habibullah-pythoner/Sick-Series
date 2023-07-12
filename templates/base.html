@@ -15,7 +15,22 @@
     {% comment %} Styles {% endcomment %}
     <link rel="stylesheet" href="{% static 'style/main.css' %}">
 </head>
-<body>
+<body onload="loaded()">
+
+    <script>
+        
+        var portal_open = false;
+
+        function portalevent() {
+            if(!portal_open) {
+              document.body.classList.add('portal')
+            } else {
+              document.body.classList.remove('portal')
+            }
+          
+            portal_open = !portal_open
+          }
+    </script>
 
     <div id="banner">
         <div>
@@ -64,8 +79,12 @@
     </div>
 
     <div id="main_content">{% block content %}{% endblock %}</div>
-
-
+    <div id="parent_portal" class="section">
+        <button onclick="portalevent()">
+            <img src="{% static 'img/icon/cancel.png' %}" alt="">
+        </button>
+        <iframe id="portal" frameborder="0" name="portal"></iframe>
+    </div>
     {% comment %} JavaScripts {% endcomment %}
     <script src="{% static 'script/events.js' %}"></script>
 </body>

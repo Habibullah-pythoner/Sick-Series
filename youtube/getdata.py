@@ -12,9 +12,9 @@ def getStatics():
         'id': 'UCPxy8EgTCarmXV7juQLhg0Q',
         'key': settings.YOUTUBE_API_KEY,
     }
-    r = requests.get(api_link, params=parm)
     singleton = Youtube.get_singleton()
     try:
+        r = requests.get(api_link, params=parm)
         subs = r.json()['items'][0]['statistics']['subscriberCount']
         views = r.json()['items'][0]['statistics']['viewCount']
 
