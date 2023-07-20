@@ -6,6 +6,10 @@ import requests
 from django.http import HttpResponse
 from youtube.getdata import *
 import locale
+from django.http import JsonResponse
+from rest_framework.decorators import api_view
+from .serializers import ProductSerializer
+from django.core.serializers import serialize
 from django.views.decorators.clickjacking import xframe_options_exempt
 
 
@@ -30,17 +34,16 @@ def format_number(number):
     return formatted_number
 
 
-@xframe_options_exempt
+# @xframe_options_exempt
+@api_view(['GET'])
 def product_detail(request, product_id):
-    # Retrieve the product from the database using the product_id
-    product = get_object_or_404(Product, id=product_id)
+    try:
+        product = Product.objects.prefetch_related('product_images').get(pk=product_id)
+    except Product.DoesNotExist:
+        return JsonResponse({'error': 'Product not found'}, status=404)
 
-    # Pass the product to the template
-    context = {
-        'product': product
-    }
-
-    return render(request, 'product.html', context)
+    serializer = ProductSerializer(product)
+    return JsonResponse(serializer.data)
 
 def index(request):
     user_agent = parse(request.META.get('HTTP_USER_AGENT', ''))
@@ -51,6 +54,7 @@ def index(request):
     
     products = Product.objects.all()
     lookbooks = Lookbook.objects.all()
+
 
     youtube = getStatics()
 

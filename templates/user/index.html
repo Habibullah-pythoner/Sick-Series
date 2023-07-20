@@ -11,8 +11,12 @@
 
 <div id="landing" class="sticky">
     <div id="first_slice">
+        <div id="lefty" class="pc_only">
+            <p>Join The Crew</p>
+            <button>ALL PRODUCTS</button>
+        </div>
         <h1>SICK</h1>
-        <div id="mirror">
+        <div id="mirror" class="first_slice">
             {% if mobile %}
                 <img src="{% static 'img/wallpapers/firstwallpaper_mobile.webp' %}" id="wallpaper">
             {% else %}
@@ -21,24 +25,57 @@
             <div id="scroll_frame">
                 <div id="products">
                     {% for product in products %}
-                    <div id="click_event" onclick="portalevent()">
-                        <a href="product/{{ product.id }}" target="portal">
+                    <div id="click_event" onclick="portalevent({{ product.id }})">
+                        {% comment %} <a href="product/{{ product.id }}" target="portal"> {% endcomment %}
                             <div id="shade">
                                 <div id="child_shade">
                                     <div id="product">
-                                        <div id="images">
+                                        <div id="images" class="image_skeleton">
+                                            <div id="skeleton_anim"></div>
                                             {% for image in product.product_images.all %}
-                                                <img src="{{ image.image.url }}" alt="{{ product.name }} Image">
+                                                <img src="" data-src="{{ image.image.url }}">
                                             {% endfor %}
                                         </div>
-                                        <h2>{{ product.name }}</h2>
-                                        <p>{{ product.price }}</p>
+                                        
+                                        <h2>
+                                            <div class="name_skeleton"></div>
+                                            <div id="skeleton_anim"></div>
+                                            <p>{{ product.name }}</p>
+                                        </h2>
+                                        <h3>
+                                            <div class="price_skeleton"></div>
+                                            <div id="skeleton_anim"></div>
+                                            <p>{{ product.price }}</p>
+                                        </h3>
                                     </div>
                                 </div>
                             </div>
-                        </a>
+                        {% comment %} </a> {% endcomment %}
                     </div>
                     {% endfor %}
+                    {% comment %} {% for _ in "x"|rjust:featured %}
+                    <div id="click_event" class="skeleton_parent" onclick="portalevent()">
+                        <div id="shade">
+                            <div id="child_shade">
+                                <div id="product">
+                                    <div id="images" class="image_skeleton"></div>
+                                    
+                                    
+                                    <h2>
+                                        <div class="name_skeleton"></div>
+                                        &nbsp;
+                                    </h2>
+                                    <h3>
+                                        <div class="price_skeleton"></div>
+                                        &nbsp;
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %} {% endcomment %}
+                    
+        
                     <div id="shade" class="wide">
                         <p>THAT IS NOT IT!</p>
                         <a href="">
@@ -47,14 +84,11 @@
                     </div>
                 </div>
             </div>
-        </div>          
+        </div>  
     </div>
     <div id="second_slice">
         <h1>SERIES</h1>
-        <div id="mirror">
-            <img src="{% static 'img/wallpapers/secondwallpaper.webp' %}">
-        </div> 
-        <div id="scroll">
+        <div id="scroll" class="pc_only">
             <p>SCROLL</p>
             <svg xmlns="http://www.w3.org/2000/svg" width="31.823" height="7.419" viewBox="0 0 31.823 7.419">
                 <g id="Group_1" data-name="Group 1" transform="translate(531.472 -253) rotate(90)">
@@ -62,17 +96,31 @@
                 <path id="Path_2" data-name="Path 2" d="M285.7,1670.226l2.642,15.334-2.642,15.334" transform="translate(-28.422 -1170)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
                 </g>
             </svg>              
-        </div>         
+        </div>   
+        <div id="mirror">
+            <img src="{% static 'img/wallpapers/secondwallpaper.webp' %}">
+        </div>   
     </div>
+    <div id="scroll" class="mobile_only">
+        <p>SCROLL</p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="31.823" height="7.419" viewBox="0 0 31.823 7.419">
+            <g id="Group_1" data-name="Group 1" transform="translate(531.472 -253) rotate(90)">
+            <line id="Line_1" data-name="Line 1" x2="6.289" transform="translate(253.5 515.689)" fill="none" stroke="#100303" stroke-linecap="round" stroke-width="1"/>
+            <path id="Path_2" data-name="Path 2" d="M285.7,1670.226l2.642,15.334-2.642,15.334" transform="translate(-28.422 -1170)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+            </g>
+        </svg>              
+    </div>  
 </div>
 <div id="fake"></div>
 
 
 <div id="mini_about" class="section">
-    <h1>MORE THAN JUST A BRAND - IT'S A LIFE STYLE</h1>
+    
+    <h1>MORE THAN JUST A BRAND - IT'S A LIFE STYLE
+    </h1>
     
     <p>[SICK!] Contrary to the real meaning of the word, SICK is a compliment.Especially in sports, the word is often used to describe something cool or badass.</p>
-    <div id="image">
+    <div id="image" align="right">
         <img src="{% static 'img/wallpapers/group.webp' %}" alt="">
     </div>
     
@@ -81,26 +129,30 @@
 
 <div id="youtube" class="section">
     <img src="{% static 'img/logo/youtube.png' %}" alt="Youtube.com" id="youtube_logo">
-    <div id="sick_youtube">
-        <img src="{% static 'img/logo/sick.jpg' %}" alt="Sick Series">
-        <div>
-            <h2>SICK!</h2>
-            <p>@sickworldwide - 128 videos</p>
-            <div class="subscriber">{{ subs }} <span>subscribers</span></div>
+    <div id="flex">
+        <div id="sick_youtube">
+            <img src="{% static 'img/logo/sick.jpg' %}" alt="Sick Series">
+            <div>
+                <h2>SICK!</h2>
+                <p>@sickworldwide - 128 videos</p>
+                <div class="subscriber">{{ subs }} <span>subscribers</span></div>
+            </div>
         </div>
+        <div>
+        <div id="views"><p>{{ views }} views</p></div>
+        <a href="" id="main_link">CHECK OUT CHANNEL / VIDEOS</a>
     </div>
-    <div id="views"><p>{{ views }} views</p></div>
-    <a href="" id="main_link">CHECK OUT CHANNEL / VIDEOS</a>
+    </div>
     <div id="big_wallpaper">
         <img src="{% static 'img/wallpapers/youtube.webp' %}" alt="">
     </div>
 </div>
 
 <div id="lookbooks" class="section">
-    <div>
+    <div id="sP9iaT86EFzoiH05Y0t8OTNiCFaneYFiIphmfFPKqppp5Ml6NC5qNOEfBcb71WzSta1ykWyEHj1ZDJulT6JsMFxKcFU7MxjGFyMYkjevpbXaCco2csBSmiwpzOK9hTosVu6NCcQf4zKuGgE6u">
         <h1>LOOK BOOK</h1>
         <p>Unleash Your Freeride Adventure</p>
-        <div id="tabs">
+        <div id="tabs" class="mobile_only">
             <ul>
                 {% for lookbook in lookbooks %}
                     <li><div id="liststyle"></div><p>{{ lookbook.name }}</p></li>
@@ -110,32 +162,69 @@
         </div>
     </div>
     <div id="background">
+        <div id="parent_container">
         {% for lookbook in lookbooks %}
         <div id="container">
-            
-                {% for image in lookbook.lookbook_Image.all %}
+            <div id="bigGrid">
+                <div id="image" class="landscape">   
+                    <div id="skeleton_anim"></div>
+                    <img src="" data-src="{{ lookbook.lookbook_Image.all.0.image.url }}">
+                </div>
+                <div id="image" class="extra">   
+                    <div id="skeleton_anim"></div>
+                    <img src="" data-src="{{ lookbook.lookbook_Image.all.1.image.url }}">
+                </div>
+                <div id="image" class="extra">   
+                    <div id="skeleton_anim"></div>
+                    <img src="" data-src="{{ lookbook.lookbook_Image.all.3.image.url }}">
+                </div>
+            </div>
+            <div id="rest">
+                <div id="image">   
+                    <div id="skeleton_anim"></div>
+                    <img src="" data-src="{{ lookbook.lookbook_Image.all.1.image.url }}">
+                </div>
+                <div id="image">   
+                    <div id="skeleton_anim"></div>
+                    <img src="" data-src="{{ lookbook.lookbook_Image.all.2.image.url }}">
+                </div>
+                <div id="image">   
+                    <div id="skeleton_anim"></div>
+                    <img src="" data-src="{{ lookbook.lookbook_Image.all.3.image.url }}">
+                </div>
+                <div id="action">
+                    <p>DETAILS</p>
+                </div>
+            </div>
+                {% comment %} {% for image in lookbook.lookbook_Image.all %}
+                
                     {% if image.landscape %}
                         <div id="image" class="landscape">
-                            <img src="{{ image.image.url }}">
+                            
+                            <div id="skeleton_anim"></div>
+                            <img src="" data-src="{{ image.image.url }}">
                         </div>
                     {% else %}
                         {% if forloop.counter == lookbook.lookbook_Image.all|length|add:'-1' %}
                             <div id="image" class="long">
-                                <img src="{{ image.image.url }}">
+                                
+                                <div id="skeleton_anim"></div>
+                                <img src="" data-src="{{ image.image.url }}">
                             </div>
                         {% else %}
                             <div id="image">
-                                <img src="{{ image.image.url }}">
+                                
+                                <div id="skeleton_anim"></div>
+                                <img src="" data-src="{{ image.image.url }}">
                             </div>
                         {% endif %}
                     {% endif %}
-                {% endfor %}
+                {% endfor %} {% endcomment %}
             
-            <div id="action">
-                <p>DETAILS</p>
-            </div>
+            
         </div>
         {% endfor %}
+        </div>
     </div>
 </div>
 
@@ -148,45 +237,46 @@
 </div>
 
 <div id="footer" class="section">
-    <div id="btt">
-        <svg xmlns="http://www.w3.org/2000/svg" width="264.995" height="45.954" viewBox="0 0 264.995 45.954">
-            <g id="Group_7" data-name="Group 7" transform="translate(150.495 -3844.086)">
-              <g id="Rectangle_69" data-name="Rectangle 69" transform="translate(111.085 3888.598) rotate(-163)" fill="#100303" stroke="#100303" stroke-width="1">
-                <path d="M4.048,0H123.1a0,0,0,0,1,0,0V7.286a0,0,0,0,1,0,0H3.238A3.238,3.238,0,0,1,0,4.048v0A4.048,4.048,0,0,1,4.048,0Z" stroke="none"/>
-                <path d="M4.036.5H122.6a0,0,0,0,1,0,0V6.786a0,0,0,0,1,0,0H3.25A2.75,2.75,0,0,1,.5,4.036v0A3.536,3.536,0,0,1,4.036.5Z" fill="none"/>
-              </g>
-              <g id="Rectangle_72" data-name="Rectangle 72" transform="translate(-148.916 3881.63) rotate(-17)" fill="#100303" stroke="#100303" stroke-width="1">
-                <path d="M3.974,0H123.1a0,0,0,0,1,0,0V7.287a0,0,0,0,1,0,0H3.312A3.312,3.312,0,0,1,0,3.974v0A3.974,3.974,0,0,1,3.974,0Z" stroke="none"/>
-                <path d="M3.958.5H122.6a0,0,0,0,1,0,0V6.787a0,0,0,0,1,0,0H3.329A2.829,2.829,0,0,1,.5,3.958v0A3.458,3.458,0,0,1,3.958.5Z" fill="none"/>
-              </g>
-              <g id="Rectangle_70" data-name="Rectangle 70" transform="translate(-31.656 3845.62)" fill="#100303" stroke="#100303" stroke-width="1">
-                <rect width="27.228" height="7.286" stroke="none"/>
-                <rect x="0.5" y="0.5" width="26.228" height="6.286" fill="none"/>
-              </g>
-              <rect id="Rectangle_71" data-name="Rectangle 71" width="9.204" height="24.927" rx="4" transform="translate(-22.453 3844.086)" fill="#1a1515"/>
-              <rect id="Rectangle_73" data-name="Rectangle 73" width="31.789" height="8.82" rx="3" transform="translate(111.921 3889.656) rotate(-163)" fill="#1e1616"/>
-              <rect id="Rectangle_74" data-name="Rectangle 74" width="31.789" height="8.821" rx="3" transform="translate(-150.495 3881.605) rotate(-17)" fill="#1e1616"/>
-            </g>
-        </svg>
-        <p>Bike Back To The Top</p>
+    <div id="flex">
+        <div id="btt">
+            <svg xmlns="http://www.w3.org/2000/svg" width="264.995" height="45.954" viewBox="0 0 264.995 45.954">
+                <g id="Group_7" data-name="Group 7" transform="translate(150.495 -3844.086)">
+                <g id="Rectangle_69" data-name="Rectangle 69" transform="translate(111.085 3888.598) rotate(-163)" fill="#100303" stroke="#100303" stroke-width="1">
+                    <path d="M4.048,0H123.1a0,0,0,0,1,0,0V7.286a0,0,0,0,1,0,0H3.238A3.238,3.238,0,0,1,0,4.048v0A4.048,4.048,0,0,1,4.048,0Z" stroke="none"/>
+                    <path d="M4.036.5H122.6a0,0,0,0,1,0,0V6.786a0,0,0,0,1,0,0H3.25A2.75,2.75,0,0,1,.5,4.036v0A3.536,3.536,0,0,1,4.036.5Z" fill="none"/>
+                </g>
+                <g id="Rectangle_72" data-name="Rectangle 72" transform="translate(-148.916 3881.63) rotate(-17)" fill="#100303" stroke="#100303" stroke-width="1">
+                    <path d="M3.974,0H123.1a0,0,0,0,1,0,0V7.287a0,0,0,0,1,0,0H3.312A3.312,3.312,0,0,1,0,3.974v0A3.974,3.974,0,0,1,3.974,0Z" stroke="none"/>
+                    <path d="M3.958.5H122.6a0,0,0,0,1,0,0V6.787a0,0,0,0,1,0,0H3.329A2.829,2.829,0,0,1,.5,3.958v0A3.458,3.458,0,0,1,3.958.5Z" fill="none"/>
+                </g>
+                <g id="Rectangle_70" data-name="Rectangle 70" transform="translate(-31.656 3845.62)" fill="#100303" stroke="#100303" stroke-width="1">
+                    <rect width="27.228" height="7.286" stroke="none"/>
+                    <rect x="0.5" y="0.5" width="26.228" height="6.286" fill="none"/>
+                </g>
+                <rect id="Rectangle_71" data-name="Rectangle 71" width="9.204" height="24.927" rx="4" transform="translate(-22.453 3844.086)" fill="#1a1515"/>
+                <rect id="Rectangle_73" data-name="Rectangle 73" width="31.789" height="8.82" rx="3" transform="translate(111.921 3889.656) rotate(-163)" fill="#1e1616"/>
+                <rect id="Rectangle_74" data-name="Rectangle 74" width="31.789" height="8.821" rx="3" transform="translate(-150.495 3881.605) rotate(-17)" fill="#1e1616"/>
+                </g>
+            </svg>
+            <p>Bike Back To The Top</p>
+        </div>
+        <div id="links">
+            <ul>
+                <li>Contact</li>
+                <li>Fit Finder</li>
+                <li>Shipping And Returns</li>
+                <li>About This Website</li>
+                <li>Terms And Conditions</li>
+                <li>Privacy</li>
+            </ul>
+        </div>
+        <div id="social">
+            <a href=""><img src="{% static 'img/icon/social/instagram.png' %}" alt=""><p>@sick_series</p></a>
+            <a href=""><img src="{% static 'img/icon/social/facebook.png' %}" alt=""><p>@sickseries</p></a>
+            <a href=""><img src="{% static 'img/icon/social/youtube.png' %}" alt=""><p>@SICK!</p></a>
+            <a href=""><img src="{% static 'img/icon/social/vimeo.png' %}" alt=""><p>CLICK TO CHECK OUT MOVIES</p></a>
+        </div>
     </div>
-    <div id="links">
-        <ul>
-            <li>Contact</li>
-            <li>Fit Finder</li>
-            <li>Shipping And Returns</li>
-            <li>About This Website</li>
-            <li>Terms And Conditions</li>
-            <li>Privacy</li>
-        </ul>
-    </div>
-    <div id="social">
-        <a href=""><img src="{% static 'img/icon/social/instagram.png' %}" alt=""><p>@sick_series</p></a>
-        <a href=""><img src="{% static 'img/icon/social/facebook.png' %}" alt=""><p>@sickseries</p></a>
-        <a href=""><img src="{% static 'img/icon/social/youtube.png' %}" alt=""><p>@SICK!</p></a>
-        <a href=""><img src="{% static 'img/icon/social/vimeo.png' %}" alt=""><p>CLICK TO CHECK OUT MOVIES</p></a>
-    </div>
-
     <p id="copyright">© 2023 Sick Series</p>
 </div>
 
