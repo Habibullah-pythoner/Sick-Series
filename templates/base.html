@@ -12,37 +12,123 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
 
+    <script>
+        const url = '/cart/add';
+        function cart_handle(product_id) {
+            var qty = Math.max(document.querySelector('#add_to_cart_parent.mobile_only #qty input').value, document.querySelector('#add_to_cart_parent.pc_only #qty input').value)
+        
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            
+            var productid = product_id;
+            var csrfToken = "{{csrf_token}}"; // Replace this with the actual CSRF token
+            
+            var data = 'productid=' + encodeURIComponent(productid) + '&csrfmiddlewaretoken=' + encodeURIComponent(csrfToken) + '&action=POST' + '&qty=' + encodeURIComponent(qty);
+            
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    var json = JSON.parse(xhr.responseText);
+                    document.querySelector('#banner #cart_qty').innerHTML = json.qty
+                } else {
+                    console.error('Request failed with status:', xhr.status);
+                }
+            };
+            
+            xhr.onerror = function() {
+                console.error('Request error');
+            };
+            
+            xhr.send(data);
+
+        }          
+    </script>
+
+    <style>
+        #giveaway ul {
+            margin-left: 0px;
+            padding: 0px;
+            list-style-image: url('{% static "/img/icon/list/list1.svg" %}');
+        }
+        #giveaway ul ul {
+            margin-left: 0px;
+            padding: 0px;
+            list-style-image: url('{% static "/img/icon/list/list2.svg" %}');
+        }
+
+        #dummy_full {
+            position: fixed;
+            width: 100%;
+            top: 10px;
+            height: 10px;
+            background: blue;
+            pointer-events: none;
+            opacity: 0;
+        }
+        #dummy_not_full {
+            position: absolute;
+            width: 100%;
+            background: red;
+            pointer-events: none;
+            opacity: 0;
+            top: 0px;
+            height: 10px;
+        }
+    </style>
+
     {% comment %} Styles {% endcomment %}
     <link rel="stylesheet" href="{% static 'style/main.css' %}">
+    <link rel="stylesheet" href="{% static 'style/account.css' %}">
 </head>
 <body onload="loaded()" class="">
 
-    
-
     <div id="banner">
-        <div>
-            <svg xmlns="http://www.w3.org/2000/svg" id="main_logo" viewBox="0 0 107 27">
-                <text id="SICK-SERIES" transform="translate(0 22)" fill="#100303" font-size="20" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">SICK-SERIES</tspan></text>
-            </svg>     
-            <div id="search" class="pc_only">
-                <form method="GET">
-                    <input type="text" name="search" placeholder="SEARCH">
-                    <button type="submit"><img src="{% static 'img/icon/search.png' %}" alt=""></button>
-                </form>
-            </div>     
+        <div id="flex">
+            <div id="flex">
+                <a href="/"><img src="{% static 'img/main_logo.webp' %}" id="main_logo"></a>
+                <div id="search" class="pc_only">
+                    <form action="/products/" method="GET">
+                        <input type="text" name="s" placeholder="SEARCH" onfocusout="autufillOff()">
+                        <button type="submit"><img src="{% static 'img/icon/search.png' %}" alt=""></button>
+                    </form>
+                </div>   
+            </div>
+            <div id="autocomplete" class="pc_only">
+                <div id="shade">
+                    <div id="thumbnail">
+
+                    </div>
+                    <ul>
+                        <a href="" id="report">Report predictions</a>
+                    </ul>
+                </div>
+            </div>  
         </div>
         <div id="nav">
             <div id="background"></div>
             <div id="content">
-                <div id="pcmenu" class="pc_only">
+                <div id="pcmenu" class="pc_only" onclick="menu()">
                     <p>Categories</p>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21.155 11.577">
                         <path id="Path_1" data-name="Path 1" d="M1728.231,49.5l9.163,9.163,9.163-9.163" transform="translate(-1726.817 -48.089)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
                     </svg>
                 </div>
                 <div id="twins">
-                    <img id="cart" src="{% static 'img/icon/cart.png' %}">
-                    <div id="profile"></div>
+                    <p id="cart_qty">
+                        {% with total_qty=cart|length %}
+                            {% if total_qty > 0 %}
+                                {{ total_qty }}
+                            {% endif %}
+                        {% endwith %}
+                    </p>
+                    <img id="cart" onclick="cart()" src="{% static 'img/icon/cart.png' %}">
+                    <div id="profile" onclick="profile()" {% if user.is_authenticated %}class="logged"{% endif %}>
+                        {% if user.is_authenticated %}
+                            {% if user.profile_picture %}
+                                <img src="{{ user.profile_picture.url }}" alt="Profile Picture">
+                            {% endif %}
+                        {% endif %}
+                    </div>
                 </div>
                 <div id="menu" onclick="menu()" class="mobile_only">
                     <div></div>
@@ -50,34 +136,151 @@
                     <div></div>
                 </div>
             </div>
-            <div id="menu_box">
-                <div id="search" class="mobile_only">
-                    <form method="GET">
-                        <input type="text" name="search" placeholder="SEARCH">
-                        <button type="submit"><img src="{% static 'img/icon/search.png' %}" alt=""></button>
-                    </form>
-                </div> 
-                <ul>
-                    <li>Alle Produkte</li>
-                    <li>Fashion</li>
-                    <li>Riding Gear</li>
-                    <li>Accessoires</li>
-                    <li>Schuhe</li>
-                    <li>Sick Members Club</li>
-                    <li>Service</li>
-                    <li>Movies</li>
-                </ul>
+            <div id="menu_slider">
+                <div id="slide">
+                    <div id="cart" class="slide">
+                        <div id="title">
+                            <h2>Your Cart</h2>
+                            <div id="line"></div>
+                            <h3>3 Items</h3>
+                        </div>
+                        <div id="the_cart">
+                            {% for item in cart %}
+                            {% with product=item.product %}
+                                <div id="item">
+                                    <div id="qty">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="inc" width="12.434" height="7.217" viewBox="0 0 12.434 7.217">
+                                            <path id="Path_10" data-name="Path 10" d="M8901.666,2082.484l4.8-4.8,4.8,4.8" transform="translate(-8900.252 -2076.681)" fill="none" stroke="#43d8c9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                            </svg>
+                                        <input type="number" value="{{ item.qty }}" min="1">                        
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="dec" width="12.434" height="7.217" viewBox="0 0 12.434 7.217">
+                                            <path id="Path_9" data-name="Path 9" d="M8901.666,2077.681l4.8,4.8,4.8-4.8" transform="translate(-8900.252 -2076.267)" fill="none" stroke="#43d8c9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                            </svg>    
+                                    </div>
+                                    <div id="image" class="image_skeleton">
+                                        <div id="skeleton_anim"></div>
+                                    {% comment %} {% for image in product.product_images.all %}
+                                        <img src="" data-src="{{ image.image.url }}">
+                                    {% endfor %} {% endcomment %}
+                                    <img src="{{ product.product_images.first.image.url }}" data-src="{{ product.product_images.first.image.url }}">
+
+                                    </div>
+                                    <div id="context">
+                                        <h2>{{ product.name }}</h2>
+                                        <h3>{{ product.price }} £</h3>
+                                    </div>
+                                    <div id="delete" onclick>
+                                        <img src="{% static 'img/icon/delete.png' %}">
+                                    </div>
+                                </div>
+                            {% endwith %}
+                            {% endfor %}
+                        </div>
+                        <div id="checkout">
+                            <h1>Totals: 69.99 £</h1>
+                            <p>
+                                Discount codes, shipping costs and taxes are calculated at checkout.
+                            </p>
+                            <a href="">
+                                <button>TO CHECKOUT</button>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div id="profile_detail" class="slide">
+                        {% if user.is_authenticated %}
+                        <div id="flex">
+                            <div id="profile_image">
+                                <img src="{{ user.profile_picture.url }}">
+                            </div>
+                            <div>
+                                <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+                                <p>{{ user.email }}</p>
+                            </div>
+                        </div>
+                        <a href="/account/dashboard">
+                            <button id="dash">Profile Dashboard</button>
+                        </a>
+                        <a href="/account/logout">
+                            <button>Sign out</button>
+                        </a>
+                        {% else %}
+                            <a href="/account/login"><button>Login</button></a>
+                            <a href="/account/signup"><button>Create an account</button></a>
+                        {% endif %}
+                    </div>
+
+                    <div id="menu_box" class="slide">
+                        <div id="search" class="mobile_only">
+                            <form action="/products/" method="GET">
+                                <input type="text" name="s" placeholder="SEARCH" onfocusout="autufillOff()">
+                                <button type="submit"><img src="{% static 'img/icon/search.png' %}" alt=""></button>
+                            </form>
+                            <div id="autocomplete">
+                                <ul>
+                                </ul>
+                            </div>
+                        </div> 
+                        <ul>
+                            <li>Alle Produkte</li>
+                            <li>Fashion</li>
+                            <li>Riding Gear</li>
+                            <li>Accessoires</li>
+                            <li>Schuhe</li>
+                            <li>Sick Members Club</li>
+                            <li>Service</li>
+                            <li>Movies</li>
+                        </ul>
+                        <div id="social">
+                            <div id="icons">
+                                <a href="">
+                                    <img src="{% static 'img/icon/social/instagram.png' %}">
+                                </a>
+                                <a href="">
+                                    <img src="{% static 'img/icon/social/facebook.png' %}">
+                                </a>
+                                <a href="">
+                                    <img src="{% static 'img/icon/social/youtube.png' %}">
+                                </a>
+                                <a href="">
+                                    <img src="{% static 'img/icon/social/vimeo.png' %}">
+                                </a>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="233.809" height="12.035" viewBox="0 0 233.809 12.035">
+                                <g id="Group_11" data-name="Group 11" transform="translate(0.5 0.692)">
+                                <line id="Line_1" data-name="Line 1" x1="232.408" transform="translate(0.402 5.37)" fill="none" stroke="#100303" stroke-linecap="round" stroke-width="1"/>
+                                <path id="Path_2" data-name="Path 2" d="M293.848,1670.227l-8.148,5.325,8.148,5.325" transform="translate(-285.699 -1670.227)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                </div>
             </div>
         </div>
     </div>
 
-    <div id="main_content">{% block content %}{% endblock %}</div>
+
+    <div id="main_content"><div id="dummy_full"></div>
+    <div id="dummy_not_full"></div>{% block content %}{% endblock %}</div>
         <div id="parent_portal" class="section">
             <button onclick="portalevent()" id="exit">
                 <img src="{% static 'img/icon/cancel.png' %}" alt="">
             </button>
             <div id="portal" class="">
-                <button id="main_add_to_cart" class="mobile_only">ADD TO CART</button>
+                <div id="add_to_cart_parent" class="mobile_only">
+                    <div id="qty">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="inc" width="12.434" height="7.217" viewBox="0 0 12.434 7.217">
+                            <path id="Path_10" data-name="Path 10" d="M8901.666,2082.484l4.8-4.8,4.8,4.8" transform="translate(-8900.252 -2076.681)" fill="none" stroke="#43d8c9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                          </svg>
+                        <input type="number" value="1" min="1">                        
+                        <svg xmlns="http://www.w3.org/2000/svg" class="dec" width="12.434" height="7.217" viewBox="0 0 12.434 7.217">
+                            <path id="Path_9" data-name="Path 9" d="M8901.666,2077.681l4.8,4.8,4.8-4.8" transform="translate(-8900.252 -2076.267)" fill="none" stroke="#43d8c9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                          </svg>                          
+                    </div>
+                    <button id="main_add_to_cart" class="mobile_only">ADD TO CART</button>
+                    
+                </div>
                 <div id="main_box">
                     <div id="images">
                         <div id="slider">
@@ -162,7 +365,18 @@
                             </div>
                         </div>
                         <div id="fixed_box" class="pc_only">
-                            <button id="main_add_to_cart" class="pc_only">ADD TO CART</button>
+                            <div id="add_to_cart_parent" class="pc_only">
+                                <div id="qty">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="inc" width="12.434" height="7.217" viewBox="0 0 12.434 7.217">
+                                        <path id="Path_10" data-name="Path 10" d="M8901.666,2082.484l4.8-4.8,4.8,4.8" transform="translate(-8900.252 -2076.681)" fill="none" stroke="#43d8c9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                      </svg>
+                                    <input type="number" value="1" min="1">                        
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="dec" width="12.434" height="7.217" viewBox="0 0 12.434 7.217">
+                                        <path id="Path_9" data-name="Path 9" d="M8901.666,2077.681l4.8,4.8,4.8-4.8" transform="translate(-8900.252 -2076.267)" fill="none" stroke="#43d8c9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                      </svg>                          
+                                </div>
+                                <button id="main_add_to_cart" class="pc_only">ADD TO CART</button>
+                            </div>
                             <div id="ratings">
                                 <div id="stars">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="17" height="17" viewBox="0 0 17 17">
@@ -190,7 +404,8 @@
         </div>
     </div>
     {% comment %} JavaScripts {% endcomment %}
-    <script src="{% static 'script/events.js' %}"></script>
+    
     <script src="{% static 'script/product.js' %}"></script>
+    <script src="{% static 'script/events.js' %}" defer></script>
 </body>
 </html>

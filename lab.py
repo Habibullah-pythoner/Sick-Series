@@ -1,7 +1,11 @@
-import locale
-def format_number_with_commas(number):
-    locale.setlocale(locale.LC_ALL, '')  # Set the locale to the default for your system
-    formatted_number = locale.format_string('%d', number, grouping=True)
-    return formatted_number
+def highlight(str, searched):
+    start = str.lower().find(searched.lower())
+    end = start + len(searched)
 
-print(format_number_with_commas(1212711))
+    substring_to_insert = "<span>"
+
+    new_string = str[:start] + substring_to_insert + str[start:end] + "<span>" + str[end:]
+    return new_string
+
+
+print(highlight("SICK HOODIE \"FABIO WIBMER SPECIAL EDITION", "ho"))

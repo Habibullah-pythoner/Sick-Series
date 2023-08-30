@@ -1,0 +1,141 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block title %}Sick-Series{% endblock %}
+
+{% block content %}
+<div id="landing" class="loaded product_page">
+<div id="first_slice">
+{% if result %}
+<div id="all_products_tab">
+    
+    {% if searched %}
+        <p id="result" class="mobile_only">Results for "{{ searched_for }}"</p>
+    {% endif %}
+    <button class="mobile_only">
+        <div id="content" onclick="togoptions()">
+            <ul>
+                <li>Options</li>
+                <li>Back</li>
+            </ul>
+            
+            <svg xmlns="http://www.w3.org/2000/svg" width="19.014" height="9.022" viewBox="0 0 19.014 9.022">
+                <path id="Path_26" data-name="Path 26" d="M12087.246,3627.028l8.1,6.615,8.1-6.615" transform="translate(-12085.839 -3625.621)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            </svg>  
+        </div>
+        <div id="options">
+            <div id="search_product">
+                <input type="text" placeholder="Search among products below...">
+                <div id="button"><img src="{% static 'img/icon/search.png' %}"></div>
+            </div>
+            <ul>
+                <li>
+                    Filter by
+                    <svg xmlns="http://www.w3.org/2000/svg" width="19.014" height="9.022" viewBox="0 0 19.014 9.022">
+                        <path id="Path_26" data-name="Path 26" d="M12087.246,3627.028l8.1,6.615,8.1-6.615" transform="translate(-12085.839 -3625.621)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                    </svg>                      
+                </li>
+                <li>
+                    Sort by
+                    <svg xmlns="http://www.w3.org/2000/svg" width="19.014" height="9.022" viewBox="0 0 19.014 9.022">
+                        <path id="Path_26" data-name="Path 26" d="M12087.246,3627.028l8.1,6.615,8.1-6.615" transform="translate(-12085.839 -3625.621)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                    </svg>                      
+                </li>
+                <li>
+                    All
+                    <svg xmlns="http://www.w3.org/2000/svg" width="19.014" height="9.022" viewBox="0 0 19.014 9.022">
+                        <path id="Path_26" data-name="Path 26" d="M12087.246,3627.028l8.1,6.615,8.1-6.615" transform="translate(-12085.839 -3625.621)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                    </svg>                      
+                </li>
+            </ul>
+        </div>
+    </button>
+    <div id="tabs" class="pc_only">
+        <ul>
+            {% if searched %}
+            <li class="native dwidth">
+                <p id="result">Results for "{{ searched_for }}"</p>
+            </li>
+            {% endif %}
+            <li>
+                Filter by
+                <svg xmlns="http://www.w3.org/2000/svg" width="19.014" height="9.022" viewBox="0 0 19.014 9.022">
+                    <path id="Path_23" data-name="Path 23" d="M12087.246,3627.028l8.1,6.615,8.1-6.615" transform="translate(-12085.839 -3625.621)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                </svg>  
+            </li>
+            <li>
+                Sort by
+                <svg xmlns="http://www.w3.org/2000/svg" width="19.014" height="9.022" viewBox="0 0 19.014 9.022">
+                    <path id="Path_23" data-name="Path 23" d="M12087.246,3627.028l8.1,6.615,8.1-6.615" transform="translate(-12085.839 -3625.621)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                </svg>  
+            </li>
+            <li class="native">
+                <div id="search_product">
+                    <form action=".">
+                        <input type="text" name="search" placeholder="Search among products below...">
+                        <div onclick="submitParentForm(this)" id="button"><img src="{% static 'img/icon/search.png' %}"></div>
+                    </form>
+                </div>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                All
+                <svg xmlns="http://www.w3.org/2000/svg" width="19.014" height="9.022" viewBox="0 0 19.014 9.022">
+                    <path id="Path_23" data-name="Path 23" d="M12087.246,3627.028l8.1,6.615,8.1-6.615" transform="translate(-12085.839 -3625.621)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                </svg>                  
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div id="mirror" class="first_slice products_page">
+    {% if mobile %}
+        <img src="{% static 'img/wallpapers/firstwallpaper_mobile.webp' %}" id="wallpaper">
+    {% else %}
+        <img src="{% static 'img/wallpapers/firstwallpaper_pc.webp' %}" id="wallpaper">
+    {% endif %}
+    <div id="scroll_frame">
+        <div id="products">
+            {% for product in products %}
+            <div id="click_event" onclick="portalevent({{ product.id }})">
+                    <div id="shade">
+                        <div id="child_shade">
+                            <div id="product">
+                                <div id="images" class="image_skeleton">
+                                    <div id="skeleton_anim"></div>
+                                    {% for image in product.product_images.all %}
+                                        <img src="" data-src="{{ image.image.url }}">
+                                    {% endfor %}
+                                </div>
+                                
+                                <h2>
+                                    <div class="name_skeleton"></div>
+                                    <div id="skeleton_anim"></div>
+                                    <p>{{ product.name }}</p>
+                                </h2>
+                                <h3>
+                                    <div class="price_skeleton"></div>
+                                    <div id="skeleton_anim"></div>
+                                    <p>{{ product.price }}</p>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div> 
+{% else %}
+{% if searched %}
+    No Results for you search
+{% else %}
+    Something went wrong
+{% endif %}
+{% endif %}
+</div>
+</div>
+
+
+{% endblock %}

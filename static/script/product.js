@@ -13,6 +13,8 @@ const size = document.querySelector('#portal #size')
 const add_to_cart = document.querySelector('#main_add_to_cart.pc_only')
 const fixed_box = document.querySelector('#fixed_box.pc_only')
 
+add_to_cart_btns = document.querySelectorAll('#main_add_to_cart')
+
 thumbnail.forEach(thumb => {
     thumb.addEventListener('click', function() {
         if(active.length > 0) {
@@ -63,6 +65,11 @@ function writeNewProductData(product) {
 
     var images = product.product_images
 
+    add_to_cart_btns.forEach(element => {
+        element.setAttribute('onclick', 'cart_handle('+ product.id +')')
+    });
+    
+
     for(var i = 0;i < images.length;i++) {
         const border = document.createElement('div')
         border.setAttribute('id', 'border')
@@ -107,8 +114,9 @@ function resetPortal() {
         pastSliders.forEach(element => {
             element.remove()
         });
-        document.querySelector('#portal #main_image #border').remove()
     }
+
+    document.querySelector('#portal #main_box #main_image').innerHTML = '<div id="skeleton_anim"></div>'
 }
 
 function portalevent(product) {
