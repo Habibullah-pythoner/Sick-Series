@@ -7,11 +7,75 @@
 
 <script>
     var valid_email = false
+    var narrow = false
 </script>
 
 <div id="landing" class="sticky">
     <div id="first_slice">
         <div id="lefty" class="pc_only">
+            <div id="grid_type" class="pc_only">
+                <div id="normal" onclick='grid_type()'>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                        <g id="Group_17" data-name="Group 17" transform="translate(-278 -130)">
+                          <g id="Rectangle_172" data-name="Rectangle 172" transform="translate(278 130)" fill="none" stroke="#100303" stroke-width="3" opacity="0.79">
+                            <rect width="9" height="9" rx="3" stroke="none"/>
+                            <rect x="1.5" y="1.5" width="6" height="6" rx="1.5" fill="none"/>
+                          </g>
+                          <g id="Rectangle_173" data-name="Rectangle 173" transform="translate(278 141)" fill="none" stroke="#100303" stroke-width="3" opacity="0.79">
+                            <rect width="9" height="9" rx="3" stroke="none"/>
+                            <rect x="1.5" y="1.5" width="6" height="6" rx="1.5" fill="none"/>
+                          </g>
+                          <g id="Rectangle_174" data-name="Rectangle 174" transform="translate(289 141)" fill="none" stroke="#100303" stroke-width="3" opacity="0.79">
+                            <rect width="9" height="9" rx="3" stroke="none"/>
+                            <rect x="1.5" y="1.5" width="6" height="6" rx="1.5" fill="none"/>
+                          </g>
+                          <g id="Rectangle_175" data-name="Rectangle 175" transform="translate(289 130)" fill="none" stroke="#100303" stroke-width="3" opacity="0.79">
+                            <rect width="9" height="9" rx="3" stroke="none"/>
+                            <rect x="1.5" y="1.5" width="6" height="6" rx="1.5" fill="none"/>
+                          </g>
+                          <g id="Ellipse_15" data-name="Ellipse 15" transform="translate(282 134)" fill="#707070" stroke="#100303" stroke-width="1" opacity="0.79">
+                            <circle cx="0.5" cy="0.5" r="0.5" stroke="none"/>
+                            <circle cx="0.5" cy="0.5" fill="none"/>
+                          </g>
+                          <g id="Ellipse_16" data-name="Ellipse 16" transform="translate(293 134)" fill="#707070" stroke="#100303" stroke-width="1" opacity="0.79">
+                            <circle cx="0.5" cy="0.5" r="0.5" stroke="none"/>
+                            <circle cx="0.5" cy="0.5" fill="none"/>
+                          </g>
+                          <g id="Ellipse_17" data-name="Ellipse 17" transform="translate(282 145)" fill="#707070" stroke="#100303" stroke-width="1" opacity="0.79">
+                            <circle cx="0.5" cy="0.5" r="0.5" stroke="none"/>
+                            <circle cx="0.5" cy="0.5" fill="none"/>
+                          </g>
+                          <g id="Ellipse_18" data-name="Ellipse 18" transform="translate(293 145)" fill="#707070" stroke="#100303" stroke-width="1" opacity="0.79">
+                            <circle cx="0.5" cy="0.5" r="0.5" stroke="none"/>
+                            <circle cx="0.5" cy="0.5" fill="none"/>
+                          </g>
+                        </g>
+                      </svg>
+                      
+                </div>
+                <div id="narrow" onclick='grid_type()'>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                        <g id="Group_18" data-name="Group 18" transform="translate(-278 -157)">
+                          <g id="Rectangle_176" data-name="Rectangle 176" transform="translate(278 157)" fill="none" stroke="#100303" stroke-width="3" opacity="0.79">
+                            <rect width="9" height="20" rx="4" stroke="none"/>
+                            <rect x="1.5" y="1.5" width="6" height="17" rx="2.5" fill="none"/>
+                          </g>
+                          <g id="Rectangle_179" data-name="Rectangle 179" transform="translate(289 157)" fill="none" stroke="#100303" stroke-width="3" opacity="0.79">
+                            <rect width="9" height="20" rx="4" stroke="none"/>
+                            <rect x="1.5" y="1.5" width="6" height="17" rx="2.5" fill="none"/>
+                          </g>
+                          <g id="Rectangle_180" data-name="Rectangle 180" transform="translate(282 163)" fill="#707070" stroke="#100303" stroke-width="1" opacity="0.79">
+                            <rect width="1" height="8" rx="0.5" stroke="none"/>
+                            <rect x="0.5" y="0.5" height="7" fill="none"/>
+                          </g>
+                          <g id="Rectangle_181" data-name="Rectangle 181" transform="translate(293 163)" fill="#707070" stroke="#100303" stroke-width="1" opacity="0.79">
+                            <rect width="1" height="8" rx="0.5" stroke="none"/>
+                            <rect x="0.5" y="0.5" height="7" fill="none"/>
+                          </g>
+                        </g>
+                      </svg>                      
+                </div>
+            </div>
             <p>Join The Crew</p>
             <button>ALL PRODUCTS</button>
         </div>
@@ -24,7 +88,7 @@
             {% endif %}
             <div id="scroll_frame">
                 <div id="fade" class="mobile_only"></div>
-                <div id="products" class="merge">
+                <div id="products" class="">
                     {% for product in products %}
                     <div id="click_event" onclick="portalevent({{ product.id }})">
                             <div id="shade">
@@ -36,17 +100,22 @@
                                                 <img src="" data-src="{{ image.image.url }}">
                                             {% endfor %}
                                         </div>
-                                        
-                                        <h2>
-                                            <div class="name_skeleton"></div>
-                                            <div id="skeleton_anim"></div>
-                                            <p>{{ product.name }}</p>
-                                        </h2>
-                                        <h3>
-                                            <div class="price_skeleton"></div>
-                                            <div id="skeleton_anim"></div>
-                                            <p>{{ product.price }}</p>
-                                        </h3>
+                                            <div id="text">
+                                                <h2>
+                                                    <div class="name_skeleton"></div>
+                                                    <div id="skeleton_anim"></div>
+                                                    <p>{{ product.name }}</p>
+                                                </h2>
+                                                <h3>
+                                                    <div class="price_skeleton"></div>
+                                                    <div id="skeleton_anim"></div>
+                                                    <p>{{ product.price }} £</p>
+                                                </h3>
+                                            </div>
+                                            <div id="buttons">
+                                                <button>ADD TO CART</button>
+                                                <button>ORDER</button>
+                                            </div>
                                     </div>
                                 </div>
                             </div>

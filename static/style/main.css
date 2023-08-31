@@ -11,7 +11,7 @@ html {
 }
 
 * {
-    color: var(--white);
+    color: var(--black);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -2172,6 +2172,33 @@ body.menu #content #pcmenu svg {
     padding: 0px;
     height: 50px;
 }
+#lefty {
+    position: relative;
+}
+#grid_type {
+    position: absolute;
+    top: 0px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+#grid_type div {
+    padding: 3px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #43d8c900;
+    transition: 0.1s ease-in-out;
+}
+#grid_type.narrow div#narrow {
+    background-color: #43d8c95d;
+}
+#grid_type.normal div#normal {
+    background-color: #43d8c95d;
+}
+#grid_type div:hover {
+    background-color: #43d8c983;
+}
 #qty {
     position: relative;
     height: 50px;
@@ -2194,6 +2221,10 @@ body.menu #content #pcmenu svg {
 }
 #qty input {
     background-color: transparent;
+}
+
+#scroll_frame #products #click_event #child_shade #buttons {
+    display: none;
 }
 #qty p {
     color: var(--black);
@@ -2270,6 +2301,13 @@ input::-webkit-outer-spin-button,
         margin: 0px;
         top: 80px;
     }
+    #all_products_tab #tabs ul li #flex {
+        gap: 10px;
+        width: 100%;
+        display: flex !important;
+        justify-content: space-between;
+        align-items: center;
+    }
     #all_products_tab #tabs {
         width: 100%;
         display: flex !important;
@@ -2284,16 +2322,184 @@ input::-webkit-outer-spin-button,
         padding: 0;
         margin: 0;
     }
+    #all_products_tab #tabs ul li {
+        cursor: pointer;
+    }
+    ul#content {
+        display: block !important;
+        position: absolute !important;
+        left: 0px;
+        transform: translateY(20px);
+        border-radius: 8px;
+        min-width: 200px;
+        overflow: hidden;
+        max-height: 0px;
+        background-color: #DAD9DE;
+    }
+    ul#content li {
+        padding: 0px 15px !important;
+        overflow: hidden;
+    }
+    ul#content li li {
+        padding: 5px 15px !important;
+    }
+    
+    ul#content #flex {
+        padding: 10px 0px;
+    }
+    ul#content ul {
+        max-height: 0px;
+        display: block !important;
+        width: 100% !important;
+        padding: 2px;
+        transition: 0.1s ease-in-out;
+        border-radius: 5px;
+        /* background-color: var(--white); */
+    }
+    ul#content li:hover ul {
+        max-height: 1200px;
+    }
+    ul#content ul li {
+        background-color: transparent !important;
+        width: calc(100% - 30px);
+        cursor: pointer;
+    }
+    body.filter li#filter ul#content {
+        max-height: 1200px;
+        padding: 10px;
+    }
+    body.filter li#filter ul#content ul {
+        padding: 0px !important;
+    }
+    body.sort li#sort ul#content {
+        max-height: 1200px;
+        padding: 10px;
+    }
+    li.active ul#content.no_flex {
+        padding: 10px 10px !important;
+    }
+    ul#content.no_flex #flex {
+        padding: 0px !important;
+    }
+    ul#content.no_flex .hold {
+        background-color: #cfcfcf !important;
+    }
+    ul#content.no_flex li {
+        cursor: pointer;
+        padding: 5px 10px !important;
+    }
+    ul#content.no_flex li:hover {
+        background-color: #43D7C8 !important;
+    }
+    ul#content li li:hover {
+        background-color: #43D7C8 !important;
+    }
+    li.active ul#content{
+        max-height: 1200px;
+        padding: 10px;
+    }
+    /* ul#content li:nth-child(1) {
+        margin-top: 20px;
+    } */
     #search_product {
         margin: 0px;
     }
+    #all_products_tab #tabs ul#category {
+        display: block;
+    }
+    #all_products_tab #tabs ul#category li {
+        justify-content: space-between;
+        display: flex !important;
+    }
+    .custom-select svg {
+        position: absolute;
+        right: 15px;
+        z-index: 10;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    .custom-select * {
+        color: var(--black);
+        border-radius: 5px;
+        position: relative;
+        font-size: 1.6rem;
+    }
+    select {
+        -moz-appearance:none; /* Firefox */
+        -webkit-appearance:none; /* Safari and Chrome */
+        appearance:none;
+    }
+      .custom-select {
+        position: relative;
+        font-family: Arial;
+      }
+      
+      .custom-select select {
+        display: none; /*hide original SELECT element: */
+      }
+      
+      .select-selected {
+        background-color: #DAD9DE;
+      }
+      
+      /* Style the arrow inside the select element: */
+      .select-selected:after {
+        position: absolute;
+        content: "";
+        top: 14px;
+        right: 10px;
+        width: 0;
+        height: 0;
+        border: 0px solid transparent;
+      }
+      
+      /* Point the arrow upwards when the select box is open (active): */
+      .select-selected.select-arrow-active:after {
+        border-color: transparent transparent #fff transparent;
+        top: 7px;
+      }
+      .select-arrow-active svg {
+          transform: translateY(-50%) rotate(180deg);
+      }
+      /* style the items (options), including the selected item: */
+      .select-items div,.select-selected {
+        padding: 10px 16px;
+        border: 0px solid transparent;
+        border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+        cursor: pointer;
+      }
+      
+      /* Style items (options): */
+      .select-items {
+        position: absolute;
+        background-color: #DAD9DE;
+        top: calc(100% + 10px);
+        left: 0;
+        right: 0;
+        z-index: 99;
+      }
+      
+      /* Hide the items when the select box is closed: */
+      .select-hide {
+        display: none;
+      }
+      
+      .select-items div:hover, .same-as-selected {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+
+    div * {
+        color: var(--black);
+    }
     #all_products_tab #tabs ul li {
-        display: flex;
+        display: block !important;
         align-items: center;
-        gap: 10px;
+        position: relative;
         padding: 10px 15px;
         border-radius: 5px;
         background-color: #DAD9DE;
+    }
+    #all_products_tab #tabs ul li #flex {
         color: var(--black);
     }
     #all_products_tab #tabs ul li.native {
@@ -2435,8 +2641,64 @@ input::-webkit-outer-spin-button,
         grid-template-rows: calc(50% - 5px) calc(50% - 5px);
         grid-template-columns: auto;
     }
-    #scroll_frame #products.merge {
-        grid-template-rows: calc(50% - 5px);
+    #scroll_frame #products.merge #click_event {
+        grid-row: span 2;
+        height: 100%;
+    }
+    #scroll_frame #products.merge #click_event #child_shade {
+        max-height: 100vh;
+    }
+    #scroll_frame #products.merge #click_event #child_shade #product {
+        aspect-ratio: 2/4;
+    }
+    #scroll_frame #products.merge #click_event #child_shade #product #images {
+        aspect-ratio: 3/5;
+    }
+    #scroll_frame #products.merge #click_event #child_shade #product #images img {
+        height: 100%;
+    }
+    #scroll_frame #products.merge #text {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: calc(100% - 20px);
+        margin: 0 auto;
+    }
+    #scroll_frame #products.merge #text h3 {
+        font-size: 1.8rem;
+        background-color: #E4E4E4;
+        padding: 10px 20px;
+        margin: -5px -10px;
+        border-radius: 25px;
+    }
+    #scroll_frame #products.merge #click_event #child_shade #product {
+        padding: 14px;
+        height: calc(100% - 28px);
+    }
+    #scroll_frame #products.merge #click_event #child_shade #product h2 {
+        font-size: 2rem;
+        overflow: hidden;
+    }
+    #scroll_frame #products.merge #click_event #child_shade #buttons {
+        display: flex;
+        position: absolute;
+        bottom: 20px;
+        width: calc(100% - 20px);
+        margin: 0 auto;
+        justify-content: space-between;
+    }
+    #scroll_frame #products.merge #click_event #child_shade #buttons button {
+        background-color: #E4E4E4;
+        padding: 10px 0px;
+        border: 0px;
+        border-radius: 4px;
+        transition: 0.1s ease-in-out;
+        font-size: 1.4rem;
+        color: var(--black);
+        width: calc(50% - 10px);
+    }
+    #scroll_frame #products.merge #click_event #child_shade #buttons button:hover {
+        background-color: #cacaca;
     }
     #products #shade {
         height: calc(100% - 0px);
@@ -2854,7 +3116,7 @@ input::-webkit-outer-spin-button,
         width: calc(100% - 40px);
         height: calc(100% - 40px);
         background-color: #260606;
-        padding: 10px;
+        padding: 0px;
         border-radius: 20px;
     }
     #lookbooks #tabs {
@@ -2881,7 +3143,6 @@ input::-webkit-outer-spin-button,
         text-align: left;
         margin-left: 20%;
         transform: translateY(50%);
-        padding: 10px 10px;
         background-color: #C1C1C1;
         border-radius: 5px;
         border: 0px;

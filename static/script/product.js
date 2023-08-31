@@ -44,7 +44,7 @@ async function getJSONData(url) {
   }
 
 function getProduct(p) {
-    getJSONData('product/'+p)
+    getJSONData('/product/'+p)
     .then((jsonData) => {
     if (jsonData) {
         // You can work with the JSON data here

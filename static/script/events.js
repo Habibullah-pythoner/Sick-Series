@@ -609,6 +609,21 @@ function sideScroll(element,direction,speed,distance,step){
       }
   }, speed);
 }
+
+function grid_type() {
+  if(!narrow) {
+    document.querySelector('#products').classList.add("merge")
+    document.querySelector('#lefty #grid_type').classList.add("narrow")
+    document.querySelector('#lefty #grid_type').classList.remove("normal")
+  } else {
+    document.querySelector('#products').classList.remove("merge")
+    document.querySelector('#lefty #grid_type').classList.add("normal")
+    document.querySelector('#lefty #grid_type').classList.remove("narrow")
+  }
+
+  narrow = !narrow
+}
+
 function tick() {
   requestAnimationFrame(tick)
   scrollPosition = main_content.scrollTop;

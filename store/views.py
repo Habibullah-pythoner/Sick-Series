@@ -61,6 +61,8 @@ def underwork(request, exception):
 
 def products(request):
     search = request.GET.get('s')
+    cat = request.GET.get('c')
+    category = Category.objects.all()
 
     if search is not None:
         searched_products = Product.objects.filter(name__contains = search)
@@ -72,6 +74,19 @@ def products(request):
             'searched': True,
             'result': result,
             'products': searched_products,
+            'category': category,
+        }
+        return render(request, 'user/products.html', data)
+    elif cat is not None:
+        products = Product.objects.filter(category = cat)
+        result = False
+        if products.exists():
+            result = True
+        data = {
+            'searched': False,
+            'result': result,
+            'products': products,
+            'category': category,
         }
         return render(request, 'user/products.html', data)
     else:
@@ -83,6 +98,7 @@ def products(request):
             'searched': False,
             'result': result,
             'products': products,
+            'category': category,
         }
         return render(request, 'user/products.html', data)
 

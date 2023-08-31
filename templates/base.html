@@ -223,10 +223,9 @@
                         </div> 
                         <ul>
                             <li>Alle Produkte</li>
-                            <li>Fashion</li>
-                            <li>Riding Gear</li>
-                            <li>Accessoires</li>
-                            <li>Schuhe</li>
+                            {% for cat in category %}
+                                <a href="/products/?c={{ cat.id }}"><li>{{ cat }}</li></a>
+                            {% endfor %}  
                             <li>Sick Members Club</li>
                             <li>Service</li>
                             <li>Movies</li>
