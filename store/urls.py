@@ -11,6 +11,8 @@ urlpatterns = [
     path('youtube', views.channel),
     path('account/', include('account.urls', namespace='account')),
     path('cart/', include('cart.urls', namespace='cart')),
+    path('checkout', views.checkout),
+    path('cities/', views.get_cities_by_country, name='get_cities_by_country'),
 ]
 
 handler404 = 'store.views.underwork'

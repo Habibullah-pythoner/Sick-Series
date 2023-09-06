@@ -1,0 +1,279 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block title %}Sick-Series | Checkout{% endblock %}
+
+{% block content %}
+
+{% if cart %}
+<div id="checkout" class="section">
+
+    <div id="main_box">
+        <div id="path">
+            <ul>
+                <li class="active" onclick="checkout(0)">Information</li>
+                <li>></li>
+                <li onclick="checkout(1)">paymentZahlung</li>
+                <li>></li>
+                <li onclick="checkout(2)" class="disable">examination</li>
+            </ul>
+        </div>
+
+        <div id="forms">
+            <div id="form" class="one">
+                <div id="legal" class="mobile_only">
+                    <a href="">Widerrufsrecht</a>
+                    <a href="">Datenschutzerklärung</a>
+                    <a href="">AGB</a>
+                </div>
+                <div id="content">
+                    <div id="express">
+                        <h3>
+                            Express checkout
+                        </h3>
+                        <div id="express_buttons">
+                            <button class="shoppay"><img src="{% static 'img/icon/express/shoppay.png' %}"></button>
+                            <button class="paypal"><img src="{% static 'img/icon/express/paypal.png' %}"></button>
+                            <button class="gpay"><img src="{% static 'img/icon/express/googlepay.png' %}"></button>
+                        </div>
+                    </div>
+                    <div id="or">
+                        <div id="line" class="short"></div>
+                        <p>Or</p>
+                        <div id="line" class="long"></div>
+                    </div>
+                    <button id="others" onclick="checkout(1)">Others</button>
+                    
+                </div>
+            </div>
+            <div id="form" class="second">
+                <div id="content">
+                    <h3>Others</h3>
+                    <div id="subform">
+                        <input type="email" id="email" placeholder="Email">
+
+                        <div id="email_news" onclick="email_news(this)">
+                            <div id="checkbox">
+                                <div id="tick"></div>
+                            </div>
+                            <p>Receive news and offers via email</p>
+                        </div>
+
+
+                        <div class="custom-select-container">
+                            <input type="hidden" id="country" value="">
+
+                            <div class="custom-select">
+                                <div class="custom-select-selected">
+                                    <div id="text">Country / Region</div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="21.155" height="11.577" viewBox="0 0 21.155 11.577" class="arrow">
+                                        <path id="Path_33" data-name="Path 33" d="M1728.231,49.5l9.163,9.163,9.163-9.163" transform="translate(-1726.817 -48.089)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>
+                                </div>
+                                <div class="custom-select-options">
+                                    {% for code, name in countries %}
+                                        <div class="custom-select-option">{{ name }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="flex_input">
+                            <input type="text" id="fname" placeholder="First name">
+                            <input type="text" id="lname" placeholder="Last name">
+                        </div>
+
+                        <input type="text" id="address" placeholder="Address">
+                        <input type="text" id="extra" placeholder="Apartment, room, etc (optional)">
+                        
+                        <div id="flex_input">
+                            <div class="custom-select-container">
+                                <input type="hidden" id="city" value="">
+
+                                <div class="custom-select">
+                                    <div class="custom-select-selected">
+                                        <div id="text">City</div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="21.155" height="11.577" viewBox="0 0 21.155 11.577" class="arrow">
+                                            <path id="Path_33" data-name="Path 33" d="M1728.231,49.5l9.163,9.163,9.163-9.163" transform="translate(-1726.817 -48.089)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                        </svg>
+                                    </div>
+                                    <div class="custom-select-options">
+                                        <div class="custom-select-option">Option A</div>
+                                        <div class="custom-select-option">Option B</div>
+                                        <div class="custom-select-option">Option C</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="text" id="pcode" placeholder="Post code">
+                        </div>
+                        <div id="flex_input">
+                            <div class="custom-select-container box">
+                                <div class="custom-select">
+                                    <div class="custom-select-selected">
+                                        <div id="text">+93</div>
+                                    </div>
+                                    <div class="custom-select-options">
+                                        <div class="custom-select-option">Option A</div>
+                                        <div class="custom-select-option">Option B</div>
+                                        <div class="custom-select-option">Option C</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="text" id="phone" placeholder="Phone">
+                        </div>
+                    </div>
+                    <button id="next" class="second disable" onclick="checkout(2)">Next
+                        <svg xmlns="http://www.w3.org/2000/svg" width="11.577" height="21.155" viewBox="0 0 11.577 21.155">
+                            <path id="Path_31" data-name="Path 31" d="M1728.231,49.5l9.163,9.163,9.163-9.163" transform="translate(-48.089 1747.972) rotate(-90)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                          </svg>
+                          
+                    </button>
+                </div>
+                <div id="legal" class="mobile_only">
+                    <a href="">Widerrufsrecht</a>
+                    <a href="">Datenschutzerklärung</a>
+                    <a href="">AGB</a>
+                </div>
+            </div>
+            <div id="form" class="third">
+                <div id="content">
+                    <div id="properties">
+                        <ul>
+                            <li>
+                                <p>Contact</p>
+                                <h4>Habib@yahoo.com</h4>
+                                <img src="{% static 'img/icon/edit.png' %}">
+                            </li>
+                            <li>
+                                <p>Dilever to</p>
+                                <h4>Afghanistan, 1007 Kabul, Western Sahara</h4>
+                                <img src="{% static 'img/icon/edit.png' %}">
+                            </li>
+                            <li>
+                                <p>Art</p>
+                                <h4>Express up to 3kg · 100,00 €</h4>
+                                <img src="{% static 'img/icon/edit.png' %}">
+                            </li>
+                            
+                                {% comment %} <p>Art</p> {% endcomment %}
+                                <p>This part of website is not fully function and under work!</p>
+                                {% comment %} <img src="{% static 'img/icon/edit.png' %}" style="opacity: 0"> {% endcomment %}
+                            {% comment %} </li> {% endcomment %}
+                        </ul>
+                        
+                    </div>
+                    <button id="next" onclick="checkout(2)">
+                        Place order!
+                        <svg xmlns="http://www.w3.org/2000/svg" width="11.577" height="21.155" viewBox="0 0 11.577 21.155">
+                            <path id="Path_31" data-name="Path 31" d="M1728.231,49.5l9.163,9.163,9.163-9.163" transform="translate(-48.089 1747.972) rotate(-90)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                        </svg>                      
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="legal" class="pc_only">
+            <a href="">Widerrufsrecht</a>
+            <a href="">Datenschutzerklärung</a>
+            <a href="">AGB</a>
+        </div>
+        
+
+        
+
+    </div>
+    <div id="right_side">
+    <div id="cart_button">
+        <div id="cart" class="slide">
+            <div id="title">
+                <h2>Your Cart</h2>
+                <div id="line"></div>
+                <h3>3 Items</h3>
+            </div>
+            <div id="the_cart">
+                {% for item in cart %}
+                {% with product=item.product %}
+                    <div id="item">
+                        <div id="qty">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="inc" width="12.434" height="7.217" viewBox="0 0 12.434 7.217">
+                                <path id="Path_10" data-name="Path 10" d="M8901.666,2082.484l4.8-4.8,4.8,4.8" transform="translate(-8900.252 -2076.681)" fill="none" stroke="#43d8c9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                </svg>
+                            <input type="number" value="{{ item.qty }}" min="1">                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="dec" width="12.434" height="7.217" viewBox="0 0 12.434 7.217">
+                                <path id="Path_9" data-name="Path 9" d="M8901.666,2077.681l4.8,4.8,4.8-4.8" transform="translate(-8900.252 -2076.267)" fill="none" stroke="#43d8c9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                </svg>    
+                        </div>
+                        <div id="image" class="image_skeleton">
+                            <div id="skeleton_anim"></div>
+                        {% comment %} {% for image in product.product_images.all %}
+                            <img src="" data-src="{{ image.image.url }}">
+                        {% endfor %} {% endcomment %}
+                        <img src="{{ product.product_images.first.image.url }}" data-src="{{ product.product_images.first.image.url }}">
+
+                        </div>
+                        <div id="context">
+                            <h2>{{ product.name }}</h2>
+                            <h3>{{ product.price }} £</h3>
+                        </div>
+                        <div id="delete" onclick>
+                            <img src="{% static 'img/icon/delete.png' %}">
+                        </div>
+                    </div>
+                {% endwith %}
+                {% endfor %}
+            </div>
+            <div id="checkout" class="mini">
+                <h1>Totals: 69.99 £</h1>
+                <div id="gitcard" class="mobile_only">
+                    <input type="text" id="giftcard" placeholder="Gift card or discount code">
+                    <div id="submit_giftcard">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15.477" height="21.155" viewBox="0 0 15.477 21.155">
+                            <g id="Group_21" data-name="Group 21" transform="translate(-13863.5 -7894.423)">
+                              <path id="Path_35" data-name="Path 35" d="M1728.231,49.5l9.163,9.163,9.163-9.163" transform="translate(13819.311 9642.395) rotate(-90)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                              <line id="Line_25" data-name="Line 25" x1="7" transform="translate(13864.5 7905)" fill="none" stroke="#100303" stroke-linecap="round" stroke-width="2"/>
+                            </g>
+                          </svg>                          
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button onclick="checkout_cart()" class="mobile_only">
+            <ul>
+                <li>Cart & Gift card</li>
+                <li>Close</li>
+            </ul>
+            <svg xmlns="http://www.w3.org/2000/svg" width="21.155" height="11.577" viewBox="0 0 21.155 11.577">
+                <path id="Path_32" data-name="Path 32" d="M1728.231,58.666l9.163-9.163,9.163,9.163" transform="translate(-1726.817 -48.503)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            </svg>          
+        </button>
+    </div>
+    <div id="gitcard" class="pc_only">
+        <h2>Got a Gift card or discount code?</h2>
+        <div id="flex">
+            <input type="text" id="giftcard" placeholder="Code">
+            <div id="submit_giftcard">
+                Use                        
+            </div>
+        </div>
+    </div>
+    </div>
+
+</div>
+{% else %}
+<div id="empty_cart" class="section">
+    <div id="back" onclick="window.history.back();">Back</div>
+
+    <div id="content">
+        <img src="{% static 'img/illustrations/empty_basket.png' %}">
+        <h1>Your cart is empty, nothing to checkout.</h1>
+        <a href="/products"><button>ALL PRODUCTS</button></a>
+    </div>
+
+    <div id="legal">
+        <a href="">Widerrufsrecht</a>
+        <a href="">Datenschutzerklärung</a>
+        <a href="">AGB</a>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

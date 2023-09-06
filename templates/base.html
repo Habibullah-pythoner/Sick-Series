@@ -138,6 +138,50 @@
             </div>
             <div id="menu_slider">
                 <div id="slide">
+                    <div id="menu_box" class="slide pc_only">
+                        <div id="search" class="mobile_only">
+                            <form action="/products/" method="GET">
+                                <input type="text" name="s" placeholder="SEARCH" onfocusout="autufillOff()">
+                                <button type="submit"><img src="{% static 'img/icon/search.png' %}" alt=""></button>
+                            </form>
+                            <div id="autocomplete">
+                                <ul>
+                                </ul>
+                            </div>
+                        </div> 
+                        <ul>
+                            <li>Alle Produkte</li>
+                            {% for cat in category %}
+                                <a href="/products/?c={{ cat.id }}"><li>{{ cat }}</li></a>
+                            {% endfor %}  
+                            <li>Sick Members Club</li>
+                            <li>Service</li>
+                            <li>Movies</li>
+                        </ul>
+                        <div id="social">
+                            <div id="icons">
+                                <a href="">
+                                    <img src="{% static 'img/icon/social/instagram.png' %}">
+                                </a>
+                                <a href="">
+                                    <img src="{% static 'img/icon/social/facebook.png' %}">
+                                </a>
+                                <a href="">
+                                    <img src="{% static 'img/icon/social/youtube.png' %}">
+                                </a>
+                                <a href="">
+                                    <img src="{% static 'img/icon/social/vimeo.png' %}">
+                                </a>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="233.809" height="12.035" viewBox="0 0 233.809 12.035">
+                                <g id="Group_11" data-name="Group 11" transform="translate(0.5 0.692)">
+                                <line id="Line_1" data-name="Line 1" x1="232.408" transform="translate(0.402 5.37)" fill="none" stroke="#100303" stroke-linecap="round" stroke-width="1"/>
+                                <path id="Path_2" data-name="Path 2" d="M293.848,1670.227l-8.148,5.325,8.148,5.325" transform="translate(-285.699 -1670.227)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+
                     <div id="cart" class="slide">
                         <div id="title">
                             <h2>Your Cart</h2>
@@ -176,12 +220,12 @@
                             {% endwith %}
                             {% endfor %}
                         </div>
-                        <div id="checkout">
+                        <div id="checkout" class="mini">
                             <h1>Totals: 69.99 £</h1>
                             <p>
                                 Discount codes, shipping costs and taxes are calculated at checkout.
                             </p>
-                            <a href="">
+                            <a href="/checkout">
                                 <button>TO CHECKOUT</button>
                             </a>
                         </div>
@@ -210,7 +254,7 @@
                         {% endif %}
                     </div>
 
-                    <div id="menu_box" class="slide">
+                    <div id="menu_box" class="slide mobile_only">
                         <div id="search" class="mobile_only">
                             <form action="/products/" method="GET">
                                 <input type="text" name="s" placeholder="SEARCH" onfocusout="autufillOff()">
@@ -403,7 +447,8 @@
         </div>
     </div>
     {% comment %} JavaScripts {% endcomment %}
-    
+    {% comment %} <script src="https://js.stripe.com/v3/"></script> {% endcomment %}
+    {% comment %} <script src="{% static 'script/stripe.js' %}"></script> {% endcomment %}
     <script src="{% static 'script/product.js' %}"></script>
     <script src="{% static 'script/events.js' %}" defer></script>
 </body>

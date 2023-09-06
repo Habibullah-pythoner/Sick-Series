@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'youtube',
     'account',
     'cart',
+
+    'cities_light',
 ]
 
 MIDDLEWARE = [

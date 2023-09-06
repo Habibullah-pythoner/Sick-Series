@@ -13,10 +13,10 @@
         <p id="result" class="mobile_only">Results for "{{ searched_for }}"</p>
     {% endif %}
     <button class="mobile_only">
-        <div id="content" onclick="togoptions()">
-            <ul>
-                <li>Options</li>
-                <li>Back</li>
+        <div id="content" onclick="togoptions()" class="swapSvg">
+            <ul class="notthis">
+                <li id="slide_able">Options</li>
+                <li id="slide_able">Back</li>
             </ul>
             
             <svg xmlns="http://www.w3.org/2000/svg" width="19.014" height="9.022" viewBox="0 0 19.014 9.022">
@@ -30,22 +30,93 @@
             </div>
             <ul>
                 <li>
-                    Filter by
-                    <svg xmlns="http://www.w3.org/2000/svg" width="19.014" height="9.022" viewBox="0 0 19.014 9.022">
-                        <path id="Path_26" data-name="Path 26" d="M12087.246,3627.028l8.1,6.615,8.1-6.615" transform="translate(-12085.839 -3625.621)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-                    </svg>                      
+                    <div id="flex">
+                        Filter by
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19.014" height="9.022" viewBox="0 0 19.014 9.022">
+                            <path id="Path_23" data-name="Path 23" d="M12087.246,3627.028l8.1,6.615,8.1-6.615" transform="translate(-12085.839 -3625.621)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                        </svg>  
+                    </div>
+                    <ul id="content">
+                        <li onclick="setting([0,0], undefined, undefined)">
+                            <div id="flex" class="text_left">None</div>
+                        </li>
+                        <li>
+                            <div id="flex">
+                            Price
+                            <svg xmlns="http://www.w3.org/2000/svg" width="19.014" height="9.022" viewBox="0 0 19.014 9.022">
+                                <path id="Path_23" data-name="Path 23" d="M12087.246,3627.028l8.1,6.615,8.1-6.615" transform="translate(-12085.839 -3625.621)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                            </svg>  
+                            </div>
+                            <ul>
+                                <li onclick="setting([1,[0, 25]], undefined, undefined)">0 £ - 25 £</li>
+                                <li onclick="setting([1,[25, 50]], undefined, undefined)">25 £ - 50 £</li>
+                                <li onclick="setting([1,[50, 100]], undefined, undefined)">50 £ - 100 £</li>
+                                <li onclick="setting([1,[100, 69000]], undefined, undefined)">100 £ - MAX £</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <div id="flex">
+                                Size
+                                <svg xmlns="http://www.w3.org/2000/svg" width="19.014" height="9.022" viewBox="0 0 19.014 9.022">
+                                    <path id="Path_23" data-name="Path 23" d="M12087.246,3627.028l8.1,6.615,8.1-6.615" transform="translate(-12085.839 -3625.621)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                </svg>  
+                            </div>
+                            <ul>
+                                <li>140</li>
+                                <li>152</li>
+                                <li>164</li>
+                                <li>S</li>
+                                <li>M</li>
+                                <li>L</li>
+                                <li>XL</li>
+                                <li>XXL</li>
+                            </ul>
+                        </li>
+                    </ul>                   
                 </li>
                 <li>
-                    Sort by
-                    <svg xmlns="http://www.w3.org/2000/svg" width="19.014" height="9.022" viewBox="0 0 19.014 9.022">
-                        <path id="Path_26" data-name="Path 26" d="M12087.246,3627.028l8.1,6.615,8.1-6.615" transform="translate(-12085.839 -3625.621)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-                    </svg>                      
-                </li>
-                <li>
-                    All
-                    <svg xmlns="http://www.w3.org/2000/svg" width="19.014" height="9.022" viewBox="0 0 19.014 9.022">
-                        <path id="Path_26" data-name="Path 26" d="M12087.246,3627.028l8.1,6.615,8.1-6.615" transform="translate(-12085.839 -3625.621)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-                    </svg>                      
+                    <div id="flex">
+                        Sort by
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19.014" height="9.022" viewBox="0 0 19.014 9.022">
+                            <path id="Path_23" data-name="Path 23" d="M12087.246,3627.028l8.1,6.615,8.1-6.615" transform="translate(-12085.839 -3625.621)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                        </svg> 
+                    </div> 
+                    <ul id="content" class="no_flex text_left">
+                        <li>Name</li>
+                        <li>Price</li>
+                        <li class="hold">Added Date</li>
+                        <li>Size</li>
+                        <hr>
+                        <li class="hold">
+                            <div id="flex">
+                                Accending
+                                <svg xmlns="http://www.w3.org/2000/svg" width="15.155" viewBox="0 0 21.155 11.666">
+                                    <g id="Group_19" data-name="Group 19" transform="translate(-5594.817 -1093)">
+                                      <path id="Path_28" data-name="Path 28" d="M1728.231,49.5l9.163,9.163,9.163-9.163" transform="translate(3868 1045)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                      <g id="Ellipse_56" data-name="Ellipse 56" transform="translate(5604 1093)" fill="#100303" stroke="#100303" stroke-width="1">
+                                        <circle cx="1.5" cy="1.5" r="1.5" stroke="none"/>
+                                        <circle cx="1.5" cy="1.5" r="1" fill="none"/>
+                                      </g>
+                                    </g>
+                                  </svg>                              
+                            </div>
+                        </li>
+                        <li>
+                            <div id="flex">
+                                Decending
+                                <svg xmlns="http://www.w3.org/2000/svg" width="15.155" viewBox="0 0 21.155 11.666">
+                                    <g id="Group_19" data-name="Group 19" transform="translate(1.415 1)">
+                                      <path id="Path_28" data-name="Path 28" d="M1728.231,58.666l9.163-9.163,9.163,9.163" transform="translate(-1728.231 -49.503)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                      <g id="Ellipse_56" data-name="Ellipse 56" transform="translate(7.769 7.666)" fill="#100303" stroke="#100303" stroke-width="1">
+                                        <circle cx="1.5" cy="1.5" r="1.5" stroke="none"/>
+                                        <circle cx="1.5" cy="1.5" r="1" fill="none"/>
+                                      </g>
+                                    </g>
+                                  </svg>
+                                                             
+                            </div>
+                        </li>
+                    </ul>                   
                 </li>
             </ul>
         </div>
@@ -65,6 +136,12 @@
                     </svg>  
                 </div>
                 <ul id="content">
+                    
+                    <li onclick="setting([0,0], undefined, undefined)">
+                        <div id="flex" class="text_left">
+                        None
+                        </div>
+                    </li>
                     <li>
                         <div id="flex">
                         Price

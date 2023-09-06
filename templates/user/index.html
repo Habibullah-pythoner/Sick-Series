@@ -121,7 +121,38 @@
                             </div>
                     </div>
                     {% endfor %}
-
+                    {% for product in extra_products %}
+                    <div id="click_event" onclick="portalevent({{ product.id }})" class="extra">
+                            <div id="shade">
+                                <div id="child_shade">
+                                    <div id="product">
+                                        <div id="images" class="image_skeleton">
+                                            <div id="skeleton_anim"></div>
+                                            {% for image in product.product_images.all %}
+                                                <img src="" data-src="{{ image.image.url }}">
+                                            {% endfor %}
+                                        </div>
+                                            <div id="text">
+                                                <h2>
+                                                    <div class="name_skeleton"></div>
+                                                    <div id="skeleton_anim"></div>
+                                                    <p>{{ product.name }}</p>
+                                                </h2>
+                                                <h3>
+                                                    <div class="price_skeleton"></div>
+                                                    <div id="skeleton_anim"></div>
+                                                    <p>{{ product.price }} £</p>
+                                                </h3>
+                                            </div>
+                                            <div id="buttons">
+                                                <button>ADD TO CART</button>
+                                                <button>ORDER</button>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    {% endfor %}
                     
         
                     <div id="shade" class="wide">
@@ -273,10 +304,11 @@
                 {% endfor %}       
             </ul>
             <button>SHOW ALL</button>
-            <p id="date">
-                März 31, 2023
-            </p>
+            
         </div>
+        <p id="date">
+            März 31, 2023
+        </p>
         <div id="parent_container">
             <div id="container">
                 <div id="bigGrid">

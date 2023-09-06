@@ -1,5 +1,7 @@
 var menu_open = false
 
+var checkout_cart_open = false
+
 var section = document.getElementById('landing');
 if (section) {
   var sectionOffset = section.offsetTop;
@@ -119,7 +121,12 @@ function getAbsoluteHeight(el) {
 }
 
 const slide = document.querySelector('#menu_slider #slide');
-const menu_box = document.querySelector('#menu_slider #menu_box');
+var menu_box;
+if(innerWidth < 850) {
+  menu_box = document.querySelector('#menu_slider #menu_box.mobile_only');
+} else {
+  menu_box = document.querySelector('#menu_slider #menu_box.pc_only');
+}
 const profile_detail = document.querySelector('#menu_slider #profile_detail');
 const menu_cart = document.querySelector('#menu_slider #cart');
 
@@ -267,7 +274,7 @@ function fetchPredictions(value) {
           if(jsonData[0][a] != undefined) {
             pcAutocomplete.innerHTML += "<a href='/products/?s="+encodeURIComponent(jsonData[0][a].replace("<span>", "").replace("</span>", ""))+"'><li>"+jsonData[0][a]+"</li>";
           } else {
-            pcAutocomplete.innerHTML += "<li><span style='opacity: 0;pointer-event: none;'>dummy</span></li>";
+            pcAutocomplete.innerHTML += "<li class='dummy'><span style='opacity: 0;pointer-event: none;'>dummy</span></li>";
           }
         }
         pcAutocomplete.innerHTML += '<a href="" id="report">Report predictions</a>';
@@ -275,7 +282,7 @@ function fetchPredictions(value) {
       } else {
         autufillOff()
         for(var a = 0;a < 5;a++) {
-          pcAutocomplete.innerHTML += "<li><span style='opacity: 0;pointer-event: none;'>dummy</span></li>";
+          pcAutocomplete.innerHTML += "<li class='dummy'><span style='opacity: 0;pointer-event: none;'>dummy</span></li>";
         }
       }
       
@@ -459,8 +466,75 @@ function fetchCartData() {
       });
 }
 
+function isValidEmail(email) {
+  // Regular expression for a valid email address
+  const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
+
+  return emailRegex.test(email);
+}
+
+function enable_thirdform() {
+  document.querySelector('#forms #form.second button').classList.remove("disable")
+  if(document.querySelector('#path li.disable')) {
+    document.querySelector('#path li.disable').classList.remove("disable")
+  }
+}
+
+const formSecondInputs = document.querySelectorAll('#checkout #form.second input')
+
+formSecondInputs.forEach(i=> {
+  i.addEventListener('input', check_checkout_form)
+})
+
+function check_checkout_form() {
+  const inputs = document.querySelectorAll('#checkout #form.second input')
+  var unvalid = false
+
+  inputs.forEach(i=> {
+    var content = i.value
+    if(content == "" || content == undefined) {
+      unvalid = true
+    }
+  })
+
+  if (!unvalid) {
+    enable_thirdform()
+  }
+}
+
+function email_news(e) {
+  e.classList.toggle("active");
+}
+
+function getCities() {
+  const countrySelect = document.querySelector('.custom-select-selected #text');
+  const selectedCountry = countrySelect.innerHTML;
+
+  fetch(`/cities/?country_name=${selectedCountry}`)
+      .then(response => response.json())
+      .then(data => {
+          // const cityList = document.getElementById('cityList');
+          // cityList.innerHTML = '';
+
+          if (data.cities) {
+              data.cities.forEach(city => {
+                  console.log(city);
+              });
+          } else {
+            console.log("Nothing found!");
+          }
+      })
+      .catch(error => {
+          console.error('Error:', error);
+      });
+}
 
 window.addEventListener('resize', ()=> {
+  if(innerWidth < 850) {
+    menu_box = document.querySelector('#menu_slider #menu_box.mobile_only');
+  } else {
+    menu_box = document.querySelector('#menu_slider #menu_box.pc_only');
+  }
   mirror.style.height = setHeight + "px"
   section.style.height = innerHeight + "px"
 
@@ -609,7 +683,7 @@ function sideScroll(element,direction,speed,distance,step){
       }
   }, speed);
 }
-
+console.log(document.querySelector('#fake').innerHeight);
 function grid_type() {
   if(!narrow) {
     document.querySelector('#products').classList.add("merge")
@@ -620,6 +694,12 @@ function grid_type() {
     document.querySelector('#lefty #grid_type').classList.add("normal")
     document.querySelector('#lefty #grid_type').classList.remove("narrow")
   }
+  if (document.querySelector('#fake') !== null) {
+    scrollGap = Math.max((products.scrollHeight - products.offsetHeight), (products.scrollWidth - products.offsetWidth))
+    console.log((scrollGap + (1.2 * innerHeight) + lefty.offsetWidth));
+    document.querySelector('#fake').style.height = (scrollGap + (1.2 * innerHeight) + lefty.offsetWidth) + "px"
+  }
+  
 
   narrow = !narrow
 }
@@ -674,7 +754,7 @@ function tick() {
         var height = (scrollPosition * max_height) / (innerHeight / 2)
 
         mirror.style.maxHeight = (height + min_height) + "px"
-        mirror.style.maxWidth = (Math.min(((width + min_width) - 30), (80 * first_slice.offsetWidth) / 100) + Math.max(0, (scrollPosition - (80 * first_slice.offsetWidth) / 100))) + "px"
+        mirror.style.maxWidth = (Math.min(((width + min_width) - 30), (80 * first_slice.offsetWidth) / 100) + Math.max(0, (scrollPosition - document.querySelector('#fake').offsetHeight))) + "px"
         mirror.style.height = getContentHeight(first_slice) + getContentHeight(second_slice) + "px"
         document.getElementById('lefty').style.height = getContentHeight(first_slice) + getContentHeight(second_slice) + "px"
 
@@ -806,3 +886,73 @@ dec.forEach(element => {
     input.value = parseInt(input.value) - 1
   })
 });
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const selectContainers = document.querySelectorAll(".custom-select-container");
+
+  selectContainers.forEach(function (selectContainer) {
+      const select = selectContainer.querySelector(".custom-select");
+      const selectSelected = select.querySelector(".custom-select-selected");
+      const selectOptions = select.querySelector(".custom-select-options");
+
+      selectSelected.addEventListener("click", function () {
+          toggleOptions(selectOptions);
+          select.classList.toggle("open");
+      });
+
+      document.addEventListener("click", function (event) {
+          if (!select.contains(event.target)) {
+              selectOptions.style.display = "none";
+              select.classList.remove("open");
+          }
+      });
+
+      const selectOptionElements = selectOptions.querySelectorAll(".custom-select-option");
+      selectOptionElements.forEach(function (option) {
+          option.addEventListener("click", function () {
+              selectSelected.querySelector('#text').textContent = option.textContent;
+              check_checkout_form()
+              option.parentNode.parentNode.parentNode.querySelector('input').value = option.textContent;
+              selectOptions.style.display = "none";
+              select.classList.remove("open");
+          });
+      });
+  });
+
+  function toggleOptions(optionsElement) {
+      optionsElement.style.display = optionsElement.style.display === "block" ? "none" : "block";
+  }
+});
+
+
+
+
+
+function checkout_cart() {
+  if(!checkout_cart_open) {
+    document.querySelector('#checkout:not(.mini) #cart_button').classList.add('active')
+  } else{
+    document.querySelector('#checkout:not(.mini) #cart_button').classList.remove('active')
+  }
+  checkout_cart_open = !checkout_cart_open
+}
+
+
+function checkout(step) {
+  const forms = document.querySelectorAll('#checkout #form')
+  const paths = document.querySelectorAll('#checkout #path ul li')
+
+  for (var a = 0;a < paths.length;a+=2) {
+    if(a / 2 == step) {
+      paths[a].classList.add("active")
+    } else {
+      paths[a].classList.remove("active")
+    }
+  }
+  forms.forEach(f=> {
+    f.style.transform = "translateX(-"+(step * 100)+"%)"
+  })
+}
+

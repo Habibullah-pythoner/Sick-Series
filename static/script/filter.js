@@ -4,9 +4,9 @@ var sort = false
 const filterEl = document.querySelector('#tabs ul li#filter')
 const sortEl = document.querySelector('#tabs ul li#sort')
 
-filterSetting = [1,[0, 50]]
+filterSetting = [0,0]
 sortSetting = [3, 0]
-catSetting = "Fashion"
+catSetting = "All"
 
 const productsListed = document.querySelectorAll('#scroll_frame #products #click_event')
 
@@ -169,6 +169,7 @@ document.addEventListener("click", closeAllSelect);
 
 
 
+
 function togFilter() {
     if(!filter) {
         document.body.classList.add("filter")
@@ -182,6 +183,7 @@ function togFilter() {
 
     filter = !filter
 }
+// secondCustomSelect()
 
 function togSort() {
     if(!sort) {

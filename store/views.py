@@ -1,8 +1,12 @@
 from django.shortcuts import render, get_object_or_404
 from .models import *
 import re
+import stripe
+import json
+# from cities_light.models import City, Country
 from user_agents import parse
 from django.conf import settings
+from django_countries.data import COUNTRIES
 import requests
 from django.http import HttpResponse
 from youtube.getdata import *
@@ -59,6 +63,38 @@ def shuffle(cards):
 def underwork(request, exception):
     return render(request, 'user/underwork.html', {})
 
+def checkout(request):
+    countries = COUNTRIES.items()
+    cart = Cart(request)
+    category = Category.objects.all()
+
+    date = {
+        'cart': cart,
+        'countries': countries,
+        'category': category,
+    }
+    return render(request, 'user/checkout.html', date)
+
+
+
+
+
+def get_cities_by_country(request):
+    # if request.method == 'GET':
+    #     country_name = request.GET.get('country_name', '')
+
+    #     try:
+    #         # Use case-insensitive search for country name
+    #         City.objects.filter(country__name="United States", subregion__name="Orange County")
+    #         cities = City.objects.filter(country=country_name)
+    #         city_list = [city.name for city in cities]
+
+    #         return JsonResponse({'cities': city_list})
+
+    #     except Country.DoesNotExist:
+    return JsonResponse({'error': 'Country not found'}, status=404)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
 def products(request):
     search = request.GET.get('s')
     cat = request.GET.get('c')
@@ -127,6 +163,7 @@ def autocompelete(request):
 
 def index(request):
     user_agent = parse(request.META.get('HTTP_USER_AGENT', ''))
+    category = Category.objects.all()
 
     cart = Cart(request)
 
@@ -139,7 +176,9 @@ def index(request):
     else:
         logged = False
     
-    products = Product.objects.all()[::-1]
+    products = Product.objects.all().order_by('-created')[:15]
+    extra_products = Product.objects.all().order_by('-created')[15:23]
+
     lookbooks = Lookbook.objects.all()
 
     # Create an empty list to store all image URLs
@@ -166,6 +205,7 @@ def index(request):
 
     data = {
         'products': products,
+        'extra_products': extra_products,
         'lookbooks': lookbooks,
         'lookbook_images': lookbook_images,
         'mobile': mobile,
@@ -173,6 +213,7 @@ def index(request):
         'views': views,
         'logged': True,
         'cart': cart,
+        'category': category,
     }
     return render(request, 'user/index.html', data)
 

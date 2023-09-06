@@ -120,6 +120,8 @@ function resetPortal() {
 }
 
 function portalevent(product) {
+    if (product != undefined) window.history.pushState(null, null, "?p="+product);
+    
     des.style.height = ((fixed_box.getBoundingClientRect().top - des.getBoundingClientRect().top) - 40) + "px"
 
     console.log(des.getBoundingClientRect().top - fixed_box.getBoundingClientRect().top);
