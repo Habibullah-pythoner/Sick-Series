@@ -3,6 +3,15 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from imagekit.models import ImageSpecField, ProcessedImageField
 from PIL import Image
+import time
+import uuid
+import random
+from io import BytesIO
+from django.core.files.base import ContentFile
+from django.utils import timezone
+import os
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 def determine_if_landscape(image_path):
     img = Image.open(image_path)
@@ -19,9 +28,20 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+
+def image_upload_path(instance, filename):
+    subdirectory = instance.uuid
+    return f"product_images/{subdirectory}-{filename}"
+
+
+
 class ProductImage(models.Model):
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='product_images')
-    image = models.ImageField(upload_to='product_images/')
+    image = models.ImageField(upload_to=image_upload_path)  # Pass the callable, not the result
+    
+    
+
 
 class Product(models.Model):
     category = models.ForeignKey(Category, related_name='product', on_delete=models.CASCADE)

@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'account',
     'cart',
 
+    'rest_framework',
+    'sorl.thumbnail',
     'cities_light',
 ]
 

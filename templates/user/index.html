@@ -1,7 +1,22 @@
 {% extends '../base.html' %}
 {% load static %}
+{% load sorl_thumbnail %}
 
 {% block title %}Sick-Series{% endblock %}
+
+{% block body_child %}
+
+<div id="loading_animation">
+    <div id="first_time_notice">
+        <p>Your initial visit may experience a slightly longer loading time than subsequent visits, which will be significantly faster.</p>
+    </div>
+    <div id="content">
+        <img src="{% static 'img/main_logo.webp' %}">
+        <p>LOADING</p>
+    </div>
+</div>
+
+{% endblock %}
 
 {% block content %}
 
@@ -10,7 +25,7 @@
     var narrow = false
 </script>
 
-<div id="landing" class="sticky">
+<div id="landing" class="sticky section">
     <div id="first_slice">
         <div id="lefty" class="pc_only">
             <div id="grid_type" class="pc_only">
@@ -97,7 +112,9 @@
                                         <div id="images" class="image_skeleton">
                                             <div id="skeleton_anim"></div>
                                             {% for image in product.product_images.all %}
-                                                <img src="" data-src="{{ image.image.url }}">
+                                            {% thumbnail image.image "350" crop="center" as im %}
+                                                <img src="" data-src="{{ im.url }}">
+                                            {% endthumbnail %}
                                             {% endfor %}
                                         </div>
                                             <div id="text">
@@ -129,7 +146,9 @@
                                         <div id="images" class="image_skeleton">
                                             <div id="skeleton_anim"></div>
                                             {% for image in product.product_images.all %}
-                                                <img src="" data-src="{{ image.image.url }}">
+                                            {% thumbnail image.image "350" crop="center" as im %}
+                                                <img src="" data-src="{{ im.url }}">
+                                            {% endthumbnail %}
                                             {% endfor %}
                                         </div>
                                             <div id="text">
@@ -157,7 +176,7 @@
         
                     <div id="shade" class="wide">
                         <p>THAT IS NOT IT!</p>
-                        <a href="">
+                        <a href="/products">
                             <button>MORE MERCHES</button>
                         </a>
                     </div>
@@ -378,25 +397,13 @@
 <div id="footer" class="section">
     <div id="flex">
         <div id="btt" onclick="backtotop()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="264.995" height="45.954" viewBox="0 0 264.995 45.954">
-                <g id="Group_7" data-name="Group 7" transform="translate(150.495 -3844.086)">
-                <g id="Rectangle_69" data-name="Rectangle 69" transform="translate(111.085 3888.598) rotate(-163)" fill="#100303" stroke="#100303" stroke-width="1">
-                    <path d="M4.048,0H123.1a0,0,0,0,1,0,0V7.286a0,0,0,0,1,0,0H3.238A3.238,3.238,0,0,1,0,4.048v0A4.048,4.048,0,0,1,4.048,0Z" stroke="none"/>
-                    <path d="M4.036.5H122.6a0,0,0,0,1,0,0V6.786a0,0,0,0,1,0,0H3.25A2.75,2.75,0,0,1,.5,4.036v0A3.536,3.536,0,0,1,4.036.5Z" fill="none"/>
+            <svg xmlns="http://www.w3.org/2000/svg" width="186.44" height="380.604" viewBox="0 0 186.44 380.604">
+                <g id="Group_33" data-name="Group 33" transform="translate(-1341.394 -7661.599)">
+                  <path id="Path_38" data-name="Path 38" d="M5416,10542.462V10244.9" transform="translate(-3980 -2507.759)" fill="none" stroke="#100303" stroke-linecap="round" stroke-width="15"/>
+                  <path id="Path_39" data-name="Path 39" d="M5332,10289.472l82.614-82.613,82.613,82.613" transform="translate(-3980 -2537.759)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="15"/>
                 </g>
-                <g id="Rectangle_72" data-name="Rectangle 72" transform="translate(-148.916 3881.63) rotate(-17)" fill="#100303" stroke="#100303" stroke-width="1">
-                    <path d="M3.974,0H123.1a0,0,0,0,1,0,0V7.287a0,0,0,0,1,0,0H3.312A3.312,3.312,0,0,1,0,3.974v0A3.974,3.974,0,0,1,3.974,0Z" stroke="none"/>
-                    <path d="M3.958.5H122.6a0,0,0,0,1,0,0V6.787a0,0,0,0,1,0,0H3.329A2.829,2.829,0,0,1,.5,3.958v0A3.458,3.458,0,0,1,3.958.5Z" fill="none"/>
-                </g>
-                <g id="Rectangle_70" data-name="Rectangle 70" transform="translate(-31.656 3845.62)" fill="#100303" stroke="#100303" stroke-width="1">
-                    <rect width="27.228" height="7.286" stroke="none"/>
-                    <rect x="0.5" y="0.5" width="26.228" height="6.286" fill="none"/>
-                </g>
-                <rect id="Rectangle_71" data-name="Rectangle 71" width="9.204" height="24.927" rx="4" transform="translate(-22.453 3844.086)" fill="#1a1515"/>
-                <rect id="Rectangle_73" data-name="Rectangle 73" width="31.789" height="8.82" rx="3" transform="translate(111.921 3889.656) rotate(-163)" fill="#1e1616"/>
-                <rect id="Rectangle_74" data-name="Rectangle 74" width="31.789" height="8.821" rx="3" transform="translate(-150.495 3881.605) rotate(-17)" fill="#1e1616"/>
-                </g>
-            </svg>
+              </svg>
+              
             <p>Bike Back To The Top</p>
             <div id="bttBackground"></div>
         </div>
@@ -418,6 +425,337 @@
         </div>
     </div>
     <p id="copyright">© 2023 Sick Series</p>
+</div>
+
+<div id="backtotop_portal" >
+    <div id="banner">
+        <div id="flex">
+            <div id="flex">
+                <a href="/"><img src="{% static 'img/main_logo.webp' %}" id="main_logo"></a>
+                <div id="search" class="pc_only">
+                    <form action="/products/" method="GET">
+                        <input type="text" name="s" placeholder="SEARCH" onfocusout="autufillOff()">
+                        <button type="submit"><img src="{% static 'img/icon/search.png' %}" alt=""></button>
+                    </form>
+                </div>   
+            </div>
+            <div id="autocomplete" class="pc_only">
+                <div id="shade">
+                    <div id="thumbnail">
+
+                    </div>
+                    <ul>
+                        <a href="" id="report">Report predictions</a>
+                    </ul>
+                </div>
+            </div>  
+        </div>
+        <div id="nav">
+            <div id="background"></div>
+            <div id="content">
+                <div id="pcmenu" class="pc_only" onclick="menu()">
+                    <p>Categories</p>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21.155 11.577">
+                        <path id="Path_1" data-name="Path 1" d="M1728.231,49.5l9.163,9.163,9.163-9.163" transform="translate(-1726.817 -48.089)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div id="twins">
+                    <p id="cart_qty">
+                        {% with total_qty=cart|length %}
+                            {% if total_qty > 0 %}
+                                {{ total_qty }}
+                            {% endif %}
+                        {% endwith %}
+                    </p>
+                    <img id="cart" onclick="cart()" src="{% static 'img/icon/cart.png' %}">
+                    <div id="profile" onclick="profile()" {% if user.is_authenticated %}class="logged"{% endif %}>
+                        {% if user.is_authenticated %}
+                            {% if user.profile_picture %}
+                                <img src="{{ user.profile_picture.url }}" alt="Profile Picture">
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div id="menu" onclick="menu()" class="mobile_only">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+            <div id="menu_slider">
+                <div id="slide">
+                    <div id="menu_box" class="slide pc_only">
+                        <div id="search" class="mobile_only">
+                            <form action="/products/" method="GET">
+                                <input type="text" name="s" placeholder="SEARCH" onfocusout="autufillOff()">
+                                <button type="submit"><img src="{% static 'img/icon/search.png' %}" alt=""></button>
+                            </form>
+                            <div id="autocomplete">
+                                <ul>
+                                </ul>
+                            </div>
+                        </div> 
+                        <ul>
+                            <li>Alle Produkte</li>
+                            {% for cat in category %}
+                                <a href="/products/?c={{ cat.id }}"><li>{{ cat }}</li></a>
+                            {% endfor %}  
+                            <li>Sick Members Club</li>
+                            <li>Service</li>
+                            <li>Movies</li>
+                        </ul>
+                        <div id="social">
+                            <div id="icons">
+                                <a href="">
+                                    <img src="{% static 'img/icon/social/instagram.png' %}">
+                                </a>
+                                <a href="">
+                                    <img src="{% static 'img/icon/social/facebook.png' %}">
+                                </a>
+                                <a href="">
+                                    <img src="{% static 'img/icon/social/youtube.png' %}">
+                                </a>
+                                <a href="">
+                                    <img src="{% static 'img/icon/social/vimeo.png' %}">
+                                </a>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="233.809" height="12.035" viewBox="0 0 233.809 12.035">
+                                <g id="Group_11" data-name="Group 11" transform="translate(0.5 0.692)">
+                                <line id="Line_1" data-name="Line 1" x1="232.408" transform="translate(0.402 5.37)" fill="none" stroke="#100303" stroke-linecap="round" stroke-width="1"/>
+                                <path id="Path_2" data-name="Path 2" d="M293.848,1670.227l-8.148,5.325,8.148,5.325" transform="translate(-285.699 -1670.227)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div id="cart" class="slide">
+                        <div id="title">
+                            <h2>Your Cart</h2>
+                            <div id="line"></div>
+                            <h3>3 Items</h3>
+                        </div>
+                        <div id="the_cart">
+                            {% for item in cart %}
+                            {% with product=item.product %}
+                                <div id="item">
+                                    <div id="qty">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="inc" width="12.434" height="7.217" viewBox="0 0 12.434 7.217">
+                                            <path id="Path_10" data-name="Path 10" d="M8901.666,2082.484l4.8-4.8,4.8,4.8" transform="translate(-8900.252 -2076.681)" fill="none" stroke="#43d8c9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                            </svg>
+                                        <input type="number" value="{{ item.qty }}" min="1">                        
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="dec" width="12.434" height="7.217" viewBox="0 0 12.434 7.217">
+                                            <path id="Path_9" data-name="Path 9" d="M8901.666,2077.681l4.8,4.8,4.8-4.8" transform="translate(-8900.252 -2076.267)" fill="none" stroke="#43d8c9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                            </svg>    
+                                    </div>
+                                    <div id="image" class="image_skeleton">
+                                        <div id="skeleton_anim"></div>
+                                    {% comment %} {% for image in product.product_images.all %}
+                                        <img src="" data-src="{{ image.image.url }}">
+                                    {% endfor %} {% endcomment %}
+                                    <img src="{{ product.product_images.first.image.url }}" data-src="{{ product.product_images.first.image.url }}">
+
+                                    </div>
+                                    <div id="context">
+                                        <h2>{{ product.name }}</h2>
+                                        <h3>{{ product.price }} £</h3>
+                                    </div>
+                                    <div id="delete" onclick>
+                                        <img src="{% static 'img/icon/delete.png' %}">
+                                    </div>
+                                </div>
+                            {% endwith %}
+                            {% endfor %}
+                        </div>
+                        <div id="checkout" class="mini">
+                            <h1>Totals: 69.99 £</h1>
+                            <p>
+                                Discount codes, shipping costs and taxes are calculated at checkout.
+                            </p>
+                            <a href="/checkout">
+                                <button>TO CHECKOUT</button>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div id="profile_detail" class="slide">
+                        {% if user.is_authenticated %}
+                        <div id="flex">
+                            <div id="profile_image">
+                                <img src="{{ user.profile_picture.url }}">
+                            </div>
+                            <div>
+                                <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+                                <p>{{ user.email }}</p>
+                            </div>
+                        </div>
+                        <a href="/account/dashboard">
+                            <button id="dash">Profile Dashboard</button>
+                        </a>
+                        <a href="/account/logout">
+                            <button>Sign out</button>
+                        </a>
+                        <div id="profile_activities">
+                            <img src="{% static 'img/icon/graph.png' %}">
+                            <p>Summary update of your orders will be displayed here</p>
+                        </div>
+                        {% else %}
+                            <a href="/account/login"><button>Login</button></a>
+                            <a href="/account/signup"><button>Create an account</button></a>
+                        {% endif %}
+                    </div>
+
+                    <div id="menu_box" class="slide mobile_only">
+                        <div id="search" class="mobile_only">
+                            <form action="/products/" method="GET">
+                                <input type="text" name="s" placeholder="SEARCH" onfocusout="autufillOff()">
+                                <button type="submit"><img src="{% static 'img/icon/search.png' %}" alt=""></button>
+                            </form>
+                            <div id="autocomplete">
+                                <ul>
+                                </ul>
+                            </div>
+                        </div> 
+                        <ul>
+                            <li>Alle Produkte</li>
+                            {% for cat in category %}
+                                <a href="/products/?c={{ cat.id }}"><li>{{ cat }}</li></a>
+                            {% endfor %}  
+                            <li>Sick Members Club</li>
+                            <li>Service</li>
+                            <li>Movies</li>
+                        </ul>
+                        <div id="social">
+                            <div id="icons">
+                                <a href="">
+                                    <img src="{% static 'img/icon/social/instagram.png' %}">
+                                </a>
+                                <a href="">
+                                    <img src="{% static 'img/icon/social/facebook.png' %}">
+                                </a>
+                                <a href="">
+                                    <img src="{% static 'img/icon/social/youtube.png' %}">
+                                </a>
+                                <a href="">
+                                    <img src="{% static 'img/icon/social/vimeo.png' %}">
+                                </a>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="233.809" height="12.035" viewBox="0 0 233.809 12.035">
+                                <g id="Group_11" data-name="Group 11" transform="translate(0.5 0.692)">
+                                <line id="Line_1" data-name="Line 1" x1="232.408" transform="translate(0.402 5.37)" fill="none" stroke="#100303" stroke-linecap="round" stroke-width="1"/>
+                                <path id="Path_2" data-name="Path 2" d="M293.848,1670.227l-8.148,5.325,8.148,5.325" transform="translate(-285.699 -1670.227)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="landing" class="sticky">
+        <div id="first_slice" class="portal">
+            <div id="lefty" class="pc_only">
+                <div id="grid_type" class="pc_only">
+                    <div id="normal" onclick='grid_type()'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                            <g id="Group_17" data-name="Group 17" transform="translate(-278 -130)">
+                              <g id="Rectangle_172" data-name="Rectangle 172" transform="translate(278 130)" fill="none" stroke="#100303" stroke-width="3" opacity="0.79">
+                                <rect width="9" height="9" rx="3" stroke="none"/>
+                                <rect x="1.5" y="1.5" width="6" height="6" rx="1.5" fill="none"/>
+                              </g>
+                              <g id="Rectangle_173" data-name="Rectangle 173" transform="translate(278 141)" fill="none" stroke="#100303" stroke-width="3" opacity="0.79">
+                                <rect width="9" height="9" rx="3" stroke="none"/>
+                                <rect x="1.5" y="1.5" width="6" height="6" rx="1.5" fill="none"/>
+                              </g>
+                              <g id="Rectangle_174" data-name="Rectangle 174" transform="translate(289 141)" fill="none" stroke="#100303" stroke-width="3" opacity="0.79">
+                                <rect width="9" height="9" rx="3" stroke="none"/>
+                                <rect x="1.5" y="1.5" width="6" height="6" rx="1.5" fill="none"/>
+                              </g>
+                              <g id="Rectangle_175" data-name="Rectangle 175" transform="translate(289 130)" fill="none" stroke="#100303" stroke-width="3" opacity="0.79">
+                                <rect width="9" height="9" rx="3" stroke="none"/>
+                                <rect x="1.5" y="1.5" width="6" height="6" rx="1.5" fill="none"/>
+                              </g>
+                              <g id="Ellipse_15" data-name="Ellipse 15" transform="translate(282 134)" fill="#707070" stroke="#100303" stroke-width="1" opacity="0.79">
+                                <circle cx="0.5" cy="0.5" r="0.5" stroke="none"/>
+                                <circle cx="0.5" cy="0.5" fill="none"/>
+                              </g>
+                              <g id="Ellipse_16" data-name="Ellipse 16" transform="translate(293 134)" fill="#707070" stroke="#100303" stroke-width="1" opacity="0.79">
+                                <circle cx="0.5" cy="0.5" r="0.5" stroke="none"/>
+                                <circle cx="0.5" cy="0.5" fill="none"/>
+                              </g>
+                              <g id="Ellipse_17" data-name="Ellipse 17" transform="translate(282 145)" fill="#707070" stroke="#100303" stroke-width="1" opacity="0.79">
+                                <circle cx="0.5" cy="0.5" r="0.5" stroke="none"/>
+                                <circle cx="0.5" cy="0.5" fill="none"/>
+                              </g>
+                              <g id="Ellipse_18" data-name="Ellipse 18" transform="translate(293 145)" fill="#707070" stroke="#100303" stroke-width="1" opacity="0.79">
+                                <circle cx="0.5" cy="0.5" r="0.5" stroke="none"/>
+                                <circle cx="0.5" cy="0.5" fill="none"/>
+                              </g>
+                            </g>
+                          </svg>
+                          
+                    </div>
+                    <div id="narrow" onclick='grid_type()'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                            <g id="Group_18" data-name="Group 18" transform="translate(-278 -157)">
+                              <g id="Rectangle_176" data-name="Rectangle 176" transform="translate(278 157)" fill="none" stroke="#100303" stroke-width="3" opacity="0.79">
+                                <rect width="9" height="20" rx="4" stroke="none"/>
+                                <rect x="1.5" y="1.5" width="6" height="17" rx="2.5" fill="none"/>
+                              </g>
+                              <g id="Rectangle_179" data-name="Rectangle 179" transform="translate(289 157)" fill="none" stroke="#100303" stroke-width="3" opacity="0.79">
+                                <rect width="9" height="20" rx="4" stroke="none"/>
+                                <rect x="1.5" y="1.5" width="6" height="17" rx="2.5" fill="none"/>
+                              </g>
+                              <g id="Rectangle_180" data-name="Rectangle 180" transform="translate(282 163)" fill="#707070" stroke="#100303" stroke-width="1" opacity="0.79">
+                                <rect width="1" height="8" rx="0.5" stroke="none"/>
+                                <rect x="0.5" y="0.5" height="7" fill="none"/>
+                              </g>
+                              <g id="Rectangle_181" data-name="Rectangle 181" transform="translate(293 163)" fill="#707070" stroke="#100303" stroke-width="1" opacity="0.79">
+                                <rect width="1" height="8" rx="0.5" stroke="none"/>
+                                <rect x="0.5" y="0.5" height="7" fill="none"/>
+                              </g>
+                            </g>
+                          </svg>                      
+                    </div>
+                </div>
+                <p>Join The Crew</p>
+                <button>ALL PRODUCTS</button>
+            </div>
+            <h1>SICK</h1>
+            <div id="mirror" class="first_slice">
+                {% if mobile %}
+                    <img src="{% static 'img/wallpapers/firstwallpaper_mobile.webp' %}" id="wallpaper">
+                {% else %}
+                    <img src="{% static 'img/wallpapers/firstwallpaper_pc.webp' %}" id="wallpaper">
+                {% endif %}
+
+            </div>  
+        </div>
+        <div id="second_slice">
+            <h1>SERIES</h1>
+            <div id="scroll" class="pc_only">
+                <p>SCROLL</p>
+                <svg xmlns="http://www.w3.org/2000/svg" width="31.823" height="7.419" viewBox="0 0 31.823 7.419">
+                    <g id="Group_1" data-name="Group 1" transform="translate(531.472 -253) rotate(90)">
+                    <line id="Line_1" data-name="Line 1" x2="6.289" transform="translate(253.5 515.689)" fill="none" stroke="#100303" stroke-linecap="round" stroke-width="1"/>
+                    <path id="Path_2" data-name="Path 2" d="M285.7,1670.226l2.642,15.334-2.642,15.334" transform="translate(-28.422 -1170)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                    </g>
+                </svg>              
+            </div>   
+            <div id="mirror">
+                <img src="{% static 'img/wallpapers/secondwallpaper.webp' %}">
+            </div>   
+        </div>
+        <div id="scroll" class="mobile_only">
+            <p>SCROLL</p>
+            <svg xmlns="http://www.w3.org/2000/svg" width="31.823" height="7.419" viewBox="0 0 31.823 7.419">
+                <g id="Group_1" data-name="Group 1" transform="translate(531.472 -253) rotate(90)">
+                <line id="Line_1" data-name="Line 1" x2="6.289" transform="translate(253.5 515.689)" fill="none" stroke="#100303" stroke-linecap="round" stroke-width="1"/>
+                <path id="Path_2" data-name="Path 2" d="M285.7,1670.226l2.642,15.334-2.642,15.334" transform="translate(-28.422 -1170)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                </g>
+            </svg>              
+        </div>  
+    </div>
 </div>
 
 <script>

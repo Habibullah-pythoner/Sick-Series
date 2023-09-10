@@ -3,6 +3,7 @@ let active = document.querySelectorAll('#slider #border.active')
 const portal = document.getElementById('portal')
 
 var last_portal_product = 0
+
 var portal_open = false
 
 // Elements
@@ -65,6 +66,8 @@ function writeNewProductData(product) {
 
     var images = product.product_images
 
+    console.log(product);
+
     add_to_cart_btns.forEach(element => {
         element.setAttribute('onclick', 'cart_handle('+ product.id +')')
     });
@@ -79,7 +82,8 @@ function writeNewProductData(product) {
         border.appendChild(sliderContainer)
 
         const slideImage = document.createElement('img')
-        slideImage.setAttribute('src', images[i].image)
+        slideImage.setAttribute('src', images[i].resized)
+        // console.log(images[i]);
         sliderContainer.appendChild(slideImage)
         
         document.querySelector('#portal #slider').appendChild(border)
@@ -119,8 +123,8 @@ function resetPortal() {
     document.querySelector('#portal #main_box #main_image').innerHTML = '<div id="skeleton_anim"></div>'
 }
 
-function portalevent(product) {
-    if (product != undefined) window.history.pushState(null, null, "?p="+product);
+
+function portalevent(product, link_shared = false) {
     
     des.style.height = ((fixed_box.getBoundingClientRect().top - des.getBoundingClientRect().top) - 40) + "px"
 
@@ -130,9 +134,15 @@ function portalevent(product) {
             resetPortal()
             getProduct(product)
         }
-        document.body.classList.add('portal')
+        document.body.classList.add("portal")
+        if(!link_shared) {
+            let currentURL = window.location.href;
+            currentURL += "?product="+product;
+            window.history.pushState({ path: currentURL }, '', currentURL);
+        }
     } else {
-        document.body.classList.remove('portal')
+        document.body.classList.remove("portal")
+        removeQueryParameters()
     }
     if(product != undefined) {
         last_portal_product = product

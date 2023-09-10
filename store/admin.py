@@ -12,6 +12,9 @@ class ProductImageInline(admin.TabularInline):
 class ProductAdmin(admin.ModelAdmin):
     inlines = (ProductImageInline,)
 
+   
+
+
 
 class LookbookImageInline(admin.TabularInline):
     model = Lookbook_Image

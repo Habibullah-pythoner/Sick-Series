@@ -162,6 +162,8 @@ def autocompelete(request):
         return JsonResponse({'error':'nothing recieved'})
 
 def index(request):
+    portal_product = request.GET.get('product', None)
+
     user_agent = parse(request.META.get('HTTP_USER_AGENT', ''))
     category = Category.objects.all()
 
@@ -203,6 +205,14 @@ def index(request):
     subs = format_number(int(youtube['subs']))
     views = format_number_with_commas(int(youtube['views']))
 
+    try:
+        product = get_object_or_404(Product, pk=portal_product)
+        portal_open = True
+    except:
+        product = False
+        portal_open = False
+
+    print(product)
     data = {
         'products': products,
         'extra_products': extra_products,
@@ -214,6 +224,8 @@ def index(request):
         'logged': True,
         'cart': cart,
         'category': category,
+        'product': product,
+        'portal_open': portal_open,
     }
     return render(request, 'user/index.html', data)
 

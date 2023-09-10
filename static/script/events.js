@@ -27,9 +27,15 @@ var emailsupbit = document.getElementById('email_submit');
 var body = document.body;
 
 const sick = document.querySelector('#first_slice h1')
-const mirror = document.querySelector('#first_slice #mirror')
+const sick_portal = document.querySelector('#backtotop_portal #first_slice h1')
+const mirror = document.querySelector('#first_slice:not(.portal) #mirror')
+const mirror_portal = document.querySelector('#first_slice.portal #mirror')
 const second_slice = document.querySelector('#second_slice')
 const first_slice = document.querySelector('#first_slice')
+
+const second_slice_portal = document.querySelector('#second_slice')
+const first_slice_portal = document.querySelector('#first_slice')
+
 const scroll = document.querySelector('#scroll')
 const mobile_scroll = document.querySelector('#scroll.mobile_only')
 const products = document.querySelector('#landing #scroll_frame')
@@ -37,6 +43,8 @@ const mini_about = document.getElementById('mini_about')
 const lookbook = document.querySelector('#lookbooks')
 const pc_lookbook_li = document.querySelectorAll('#tabs.pc_only ul li')
 const mo_lookbook_li = document.querySelectorAll('#tabs.mobile_only ul li')
+
+
 
 if (products !== null) {
   var scrollGap = Math.max((products.scrollHeight - products.offsetHeight), (products.scrollWidth - products.offsetWidth)) || 0
@@ -247,10 +255,30 @@ adjustFixedDivWidth();
 
 function backtotop() {
   // Scroll to the top of the page
+  document.body.classList.add("goingtop")
   document.querySelector('#main_content').scrollTo({
-    top: 0,
-    behavior: "smooth" // Use smooth scrolling behavior
+    top: document.querySelector('#backtotop_portal').offsetTop, // Use smooth scrolling behavior
+    behavior: "smooth"
   });
+  
+  setTimeout(
+    ()=> {
+      document.querySelector('#backtotop_portal').classList.add('expand')
+      setTimeout(
+        ()=> {
+          document.querySelector('#main_content').scrollTo({
+            top: 0, // Use smooth scrolling behavior
+          });
+        }, 200
+      )
+    }, 700
+  )
+  setTimeout(
+    ()=> {
+      document.body.classList.remove("goingtop")
+      document.querySelector('#backtotop_portal').classList.remove('expand')
+    }, 2000)
+  
 }
 const pcAutocomplete = document.querySelector('#banner #autocomplete.pc_only ul')
 const mobileAutocomplete = document.querySelector('#banner #search.mobile_only #autocomplete ul')
@@ -596,11 +624,21 @@ if (document.querySelector('#giveaway #image img') !== null) {
 }
 
 function loaded() {
+  extra_onload()
   addTransitionDelay()
   loadImages()
   // if (innerWidth>850) {
   //   document.querySelector('#shade.wide').style.width = document.querySelectorAll('#products #click_event')[0].getBoundingClientRect.w + "px"
   // }
+  // Loaded animation
+  document.body.classList.add("loaded")
+  setTimeout(()=> {
+    document.body.classList.add("loaded2")
+  }, 700)
+  let currentURL = window.location.href;
+  if (currentURL.indexOf("#parent_portal") !== -1) {
+    document.body.classList.add("portal")
+  }
 }
 
 var options = false
@@ -683,7 +721,6 @@ function sideScroll(element,direction,speed,distance,step){
       }
   }, speed);
 }
-console.log(document.querySelector('#fake').innerHeight);
 function grid_type() {
   if(!narrow) {
     document.querySelector('#products').classList.add("merge")
@@ -696,7 +733,6 @@ function grid_type() {
   }
   if (document.querySelector('#fake') !== null) {
     scrollGap = Math.max((products.scrollHeight - products.offsetHeight), (products.scrollWidth - products.offsetWidth))
-    console.log((scrollGap + (1.2 * innerHeight) + lefty.offsetWidth));
     document.querySelector('#fake').style.height = (scrollGap + (1.2 * innerHeight) + lefty.offsetWidth) + "px"
   }
   
@@ -734,6 +770,10 @@ function tick() {
         mirror.style.maxHeight = (height + min_height) + "px"
         mirror.style.height = (setHeight - 20) + "px"
 
+        mirror_portal.style.maxHeight = min_height + "px"
+        mirror_portal.style.maxWidth = (min_width) + "px"
+        mirror_portal.style.height = (setHeight - 20) + "px"
+
         if (scrollPosition >= document.querySelector('#fake').offsetHeight) {
           section.style.top = (document.querySelector('#fake').offsetHeight)+"px"
           section.style.position = "relative"
@@ -746,16 +786,24 @@ function tick() {
         var min_width = (second_slice.offsetWidth - sick.offsetWidth)
         var max_width = (second_slice.offsetWidth * 70) / 100
 
+        var min_width_portal = (second_slice.offsetWidth - (sick_portal.offsetWidth * 1.2))
+
         var lap = Math.max(scrollPosition - (innerHeight / 2), 0)
         var width = (lap * max_width) / (innerHeight / 2)
 
         var min_height = getContentHeight(first_slice)
         var max_height = getContentHeight(first_slice) + getContentHeight(second_slice) - 100
         var height = (scrollPosition * max_height) / (innerHeight / 2)
+        var height_portal = (0 * max_height) / (innerHeight / 2)
 
         mirror.style.maxHeight = (height + min_height) + "px"
         mirror.style.maxWidth = (Math.min(((width + min_width) - 30), (80 * first_slice.offsetWidth) / 100) + Math.max(0, (scrollPosition - document.querySelector('#fake').offsetHeight))) + "px"
         mirror.style.height = getContentHeight(first_slice) + getContentHeight(second_slice) + "px"
+
+        mirror_portal.style.maxHeight = min_height + "px"
+        mirror_portal.style.maxWidth = (min_width - 30) + "px"
+        mirror_portal.style.height = getContentHeight(first_slice) + getContentHeight(second_slice) + "px"
+
         document.getElementById('lefty').style.height = getContentHeight(first_slice) + getContentHeight(second_slice) + "px"
 
         if (scrollPosition >= document.querySelector('#fake').offsetHeight) {

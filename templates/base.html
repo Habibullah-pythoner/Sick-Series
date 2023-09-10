@@ -82,6 +82,21 @@
 </head>
 <body onload="loaded()" class="">
 
+<script>
+    function removeQueryParameters() {
+        const url = window.location.href;
+        const cleanUrl = url.split('?')[0]; // Get the URL without query parameters
+        window.history.replaceState({}, document.title, cleanUrl); // Update the URL
+    }
+    function extra_onload() {
+        {% if portal_open %}
+        portalevent({{ product.id }}, true)
+        {% endif %}
+    }
+</script>
+
+    {% block body_child %}{% endblock %}
+
     <div id="banner">
         <div id="flex">
             <div id="flex">
@@ -248,6 +263,10 @@
                         <a href="/account/logout">
                             <button>Sign out</button>
                         </a>
+                        <div id="profile_activities">
+                            <img src="{% static 'img/icon/graph.png' %}">
+                            <p>Summary update of your orders will be displayed here</p>
+                        </div>
                         {% else %}
                             <a href="/account/login"><button>Login</button></a>
                             <a href="/account/signup"><button>Create an account</button></a>
