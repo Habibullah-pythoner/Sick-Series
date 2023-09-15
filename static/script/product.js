@@ -135,6 +135,7 @@ function portalevent(product, link_shared = false) {
             getProduct(product)
         }
         document.body.classList.add("portal")
+        removeQueryParameters()
         if(!link_shared) {
             let currentURL = window.location.href;
             currentURL += "?product="+product;

@@ -1,10 +1,15 @@
 {% extends '../base.html' %}
 {% load static %}
+{% load sorl_thumbnail %}
 
 {% block title %}Sick-Series{% endblock %}
 {% block body_child %}
 
 <div id="loading_animation">
+    <div id="content">
+        <img src="{% static 'img/main_logo.webp' %}">
+        <p>LOADING PRODUCT(S)</p>
+    </div>
 </div>
 
 {% endblock %}
@@ -276,7 +281,9 @@
                                 <div id="images" class="image_skeleton">
                                     <div id="skeleton_anim"></div>
                                     {% for image in product.product_images.all %}
-                                        <img src="" data-src="{{ image.image.url }}">
+                                        {% thumbnail image.image "350" crop="center" format="WEBP" as im %}
+                                            <img src="" data-src="{{ im.url }}" class="lazy">
+                                        {% endthumbnail %}
                                     {% endfor %}
                                 </div>
                                 
@@ -307,6 +314,11 @@
 {% endif %}
 </div>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.4/dist/lazyload.min.js"></script>
+<script>
+    var lazyLoadInstance = new LazyLoad({
+        // Your custom settings go here
+      });
+</script>
 <script src="{% static 'script/filter.js' %}"></script>
 {% endblock %}

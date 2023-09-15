@@ -8,13 +8,10 @@
     <title>{% block title %}{% endblock %}</title>
 
     {% comment %} Fonts {% endcomment %}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
 
     <script>
         const url = '/cart/add';
-        function cart_handle(product_id) {
+        function cart_handle(product_id, text = false, element = undefined) {
             var qty = Math.max(document.querySelector('#add_to_cart_parent.mobile_only #qty input').value, document.querySelector('#add_to_cart_parent.pc_only #qty input').value)
         
             var xhr = new XMLHttpRequest();
@@ -30,6 +27,9 @@
                 if (xhr.status === 200) {
                     var json = JSON.parse(xhr.responseText);
                     document.querySelector('#banner #cart_qty').innerHTML = json.qty
+                    if(text) {
+                        element.innerHTML = "ADDED!"
+                    }
                 } else {
                     console.error('Request failed with status:', xhr.status);
                 }
@@ -465,6 +465,10 @@
                 </div>
         </div>
     </div>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+
     {% comment %} JavaScripts {% endcomment %}
     {% comment %} <script src="https://js.stripe.com/v3/"></script> {% endcomment %}
     {% comment %} <script src="{% static 'script/stripe.js' %}"></script> {% endcomment %}

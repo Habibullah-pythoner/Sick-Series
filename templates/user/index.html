@@ -25,6 +25,10 @@
     var narrow = false
 </script>
 
+{% comment %} <div id="big_screen_text" class="4k_only">
+    <h1>SICK SERIES - SICK SERIES - SICK SERIES - SICK SERIES</h1>
+</div> {% endcomment %}
+
 <div id="landing" class="sticky section">
     <div id="first_slice">
         <div id="lefty" class="pc_only">
@@ -92,7 +96,7 @@
                 </div>
             </div>
             <p>Join The Crew</p>
-            <button>ALL PRODUCTS</button>
+            <a href="/products"><button>ALL PRODUCTS</button></a>
         </div>
         <h1>SICK</h1>
         <div id="mirror" class="first_slice">
@@ -105,34 +109,34 @@
                 <div id="fade" class="mobile_only"></div>
                 <div id="products" class="">
                     {% for product in products %}
-                    <div id="click_event" onclick="portalevent({{ product.id }})">
+                    <div id="click_event">
                             <div id="shade">
                                 <div id="child_shade">
                                     <div id="product">
-                                        <div id="images" class="image_skeleton">
+                                        <div id="images" class="image_skeleton" onclick="portalevent({{ product.id }})">
                                             <div id="skeleton_anim"></div>
                                             {% for image in product.product_images.all %}
-                                            {% thumbnail image.image "350" crop="center" as im %}
+                                            {% thumbnail image.image "350" crop="center" format="WEBP" as im %}
                                                 <img src="" data-src="{{ im.url }}">
                                             {% endthumbnail %}
                                             {% endfor %}
                                         </div>
-                                            <div id="text">
-                                                <h2>
-                                                    <div class="name_skeleton"></div>
-                                                    <div id="skeleton_anim"></div>
-                                                    <p>{{ product.name }}</p>
-                                                </h2>
-                                                <h3>
-                                                    <div class="price_skeleton"></div>
-                                                    <div id="skeleton_anim"></div>
-                                                    <p>{{ product.price }} £</p>
-                                                </h3>
-                                            </div>
-                                            <div id="buttons">
-                                                <button>ADD TO CART</button>
-                                                <button>ORDER</button>
-                                            </div>
+                                        <div id="text" onclick="portalevent({{ product.id }})">
+                                            <h2>
+                                                <div class="name_skeleton"></div>
+                                                <div id="skeleton_anim"></div>
+                                                <p>{{ product.name }}</p>
+                                            </h2>
+                                            <h3>
+                                                <div class="price_skeleton"></div>
+                                                <div id="skeleton_anim"></div>
+                                                <p>{{ product.price }} £</p>
+                                            </h3>
+                                        </div>
+                                        <div id="buttons">
+                                            <button onclick="cart_handle({{ product.id }}, true, this)">ADD TO CART</button>
+                                            <button onclick="portalevent({{ product.id }})">ORDER</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -146,7 +150,7 @@
                                         <div id="images" class="image_skeleton">
                                             <div id="skeleton_anim"></div>
                                             {% for image in product.product_images.all %}
-                                            {% thumbnail image.image "350" crop="center" as im %}
+                                            {% thumbnail image.image "350" crop="center" format="WEBP" as im %}
                                                 <img src="" data-src="{{ im.url }}">
                                             {% endthumbnail %}
                                             {% endfor %}
@@ -211,94 +215,98 @@
 </div>
 <div id="fake"></div>
 
-<div id="giveaway" class="section">
-    <div id="header">
-        <div>
-            <div id="timer">
-                <div id="day" class="box" title="Hour">48</div>
-                <span>:</span>
-                <div id="hour" class="box" title="Hour">48</div>
-                <span>:</span>
-                <div id="min" class="box" title="Minutes">24</div>
-                <span>:</span>
-                <div id="sec" class="box" title="Seconds">2</div>
-            </div>
-            <div id="flex">
-                <h1>GIVEAWAY</h1>
-                <p>
-                    WIN a Canyon x Fabio Wibmer Torque Guardian Angel replica bike! Have you always wanted a new MTB from Canyon? 💯
-                </p>
-            </div>
-        </div>
-        
-        
-    </div>
-    <div id="image">   
-        <div id="skeleton_anim"></div>
-        <img src="" data-src="{% static 'img/giveaway/giveaway.jpg' %}">
-    </div>
-    <div id="extra">
-        <h2>How to enter</h2>
-        <ul>
-            <li><div id="flex"><div id="liststyle"></div>Follow @canyon and @wibmerfabio on Instagram</div></li>
-            <li><div id="flex"><div id="liststyle"></div>Go to this post</div>
-                <ul>
-                    <li><div id="liststyle"></div>Comment on the post</li>
-                    <li><div id="liststyle"></div>Tag 2 friends in the comments - One comment is equal to one entry</li>
-                    <li><div id="liststyle"></div>For bonus entry, share the post in your story!</li>
-                </ul>
-            </li>
-        </ul>
-        <h2>What you can WIN</h2>
-        <p> 🚵 Canyon Torque 27.5 Size Medium
-            🔥 SICK x Canyon Guardian Angel Sticker Kit
-            
-            The winner will be contacted via Instagram DM directly by us after the giveaway has ended.
-            Do not reply or answer to any accounts which are not officially from us. Please report scams and fake accounts. Do not give your credit card or financial information to anyone....
-            
-            ➡️ Giveaway ends on Sunday 30th of July, 12:00AM CET.
-            ➡️ Find the T&C’s in Canyon’s link in bio. Giveaway bike will come with Pirelli Scorpions and a single crown fork.</p>
-    </div>
-
-    <button onclick="giveawayDetails()">
-        I WANT TO KNOW MORE
-        <svg xmlns="http://www.w3.org/2000/svg" width="11.22" height="6.11" viewBox="0 0 11.22 6.11">
-            <path id="Path_7" data-name="Path 7" d="M1031.509,8689l4.9,4.9,4.9-4.9" transform="translate(-1030.802 -8688.293)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-          </svg>          
-    </button>
-</div>
-
-<div id="mini_about" class="section">
-    
-    <h1>MORE THAN JUST A BRAND - IT'S A LIFE STYLE
-    </h1>
-    
-    <p>[SICK!] Contrary to the real meaning of the word, SICK is a compliment.Especially in sports, the word is often used to describe something cool or badass.</p>
-    <div id="image" align="right">
-        <img src="{% static 'img/wallpapers/group.webp' %}" alt="">
-    </div>
-    
-    
-</div>
-
-<div id="youtube" class="section">
-    <img src="{% static 'img/logo/youtube.png' %}" alt="Youtube.com" id="youtube_logo">
-    <div id="flex">
-        <div id="sick_youtube">
-            <img src="{% static 'img/logo/sick.jpg' %}" alt="Sick Series">
+<div class="second_childs">
+    <div id="giveaway" class="section">
+        <div id="header">
             <div>
-                <h2>SICK!</h2>
-                <p>@sickworldwide - 128 videos</p>
-                <div class="subscriber">{{ subs }} <span>subscribers</span></div>
+                <div id="timer">
+                    <div id="day" class="box" title="Hour">48</div>
+                    <span>:</span>
+                    <div id="hour" class="box" title="Hour">48</div>
+                    <span>:</span>
+                    <div id="min" class="box" title="Minutes">24</div>
+                    <span>:</span>
+                    <div id="sec" class="box" title="Seconds">2</div>
+                </div>
+                <div id="flex">
+                    <h1>GIVEAWAY</h1>
+                    <p>
+                        WIN a Canyon x Fabio Wibmer Torque Guardian Angel replica bike! Have you always wanted a new MTB from Canyon? 💯
+                    </p>
+                </div>
             </div>
+            
+            
         </div>
-        <div>
-        <div id="views"><p>{{ views }} views</p></div>
-        <a href="" id="main_link">CHECK OUT CHANNEL / VIDEOS</a>
+        <div id="image">   
+            <div id="skeleton_anim"></div>
+            <img src="" data-src="{% static 'img/giveaway/giveaway.jpg' %}">
+        </div>
+        <div id="extra">
+            <h2>How to enter</h2>
+            <ul>
+                <li><div id="flex"><div id="liststyle"></div>Follow @canyon and @wibmerfabio on Instagram</div></li>
+                <li><div id="flex"><div id="liststyle"></div>Go to this post</div>
+                    <ul>
+                        <li><div id="liststyle"></div>Comment on the post</li>
+                        <li><div id="liststyle"></div>Tag 2 friends in the comments - One comment is equal to one entry</li>
+                        <li><div id="liststyle"></div>For bonus entry, share the post in your story!</li>
+                    </ul>
+                </li>
+            </ul>
+            <h2>What you can WIN</h2>
+            <p> 🚵 Canyon Torque 27.5 Size Medium
+                🔥 SICK x Canyon Guardian Angel Sticker Kit
+                
+                The winner will be contacted via Instagram DM directly by us after the giveaway has ended.
+                Do not reply or answer to any accounts which are not officially from us. Please report scams and fake accounts. Do not give your credit card or financial information to anyone....
+                
+                ➡️ Giveaway ends on Sunday 30th of July, 12:00AM CET.
+                ➡️ Find the T&C’s in Canyon’s link in bio. Giveaway bike will come with Pirelli Scorpions and a single crown fork.</p>
+        </div>
+
+        <button onclick="giveawayDetails()">
+            I WANT TO KNOW MORE
+            <svg xmlns="http://www.w3.org/2000/svg" width="11.22" height="6.11" viewBox="0 0 11.22 6.11">
+                <path id="Path_7" data-name="Path 7" d="M1031.509,8689l4.9,4.9,4.9-4.9" transform="translate(-1030.802 -8688.293)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+            </svg>          
+        </button>
     </div>
+
+    <div id="mini_about" class="section">
+        
+        <h1>MORE THAN JUST A BRAND - IT'S A LIFE STYLE
+        </h1>
+        
+        <p>[SICK!] Contrary to the real meaning of the word, SICK is a compliment.Especially in sports, the word is often used to describe something cool or badass.</p>
+        <div id="image" align="right">
+            <img src="{% static 'img/wallpapers/group.webp' %}" alt="">
+        </div>
+        
+        
     </div>
-    <div id="big_wallpaper">
-        <img src="{% static 'img/wallpapers/youtube.webp' %}" alt="">
+</div>
+
+<div id="youtube_parent">
+    <div id="youtube" class="section">
+        <img src="{% static 'img/logo/youtube.png' %}" alt="Youtube.com" id="youtube_logo">
+        <div id="flex">
+            <div id="sick_youtube">
+                <img src="{% static 'img/logo/sick.jpg' %}" alt="Sick Series">
+                <div>
+                    <h2>SICK!</h2>
+                    <p>@sickworldwide - 128 videos</p>
+                    <div class="subscriber">{{ subs }} <span>subscribers</span></div>
+                </div>
+            </div>
+            <div>
+            <div id="views"><p>{{ views }} views</p></div>
+            <a href="" id="main_link">CHECK OUT CHANNEL / VIDEOS</a>
+        </div>
+        </div>
+        <div id="big_wallpaper">
+            <img src="{% static 'img/wallpapers/youtube.webp' %}" alt="">
+        </div>
     </div>
 </div>
 
@@ -384,47 +392,49 @@
 {% endfor %}
 <div id="log"></div>
 
-<div id="newsletter" class="section">
-    <div id="content">
-        <p>Be part of the exclusive Sick Members Club and receive regular updates on releases, products and backstage reports!</p>
-        <div id="email" class="border-box">
-            <input type="text" id="email_input" placeholder = "EMAIL">
+<div class="last_childs">
+    <div id="newsletter" class="section">
+        <div id="content">
+            <p>Be part of the exclusive Sick Members Club and receive regular updates on releases, products and backstage reports!</p>
+            <div id="email" class="border-box">
+                <input type="text" id="email_input" placeholder = "EMAIL">
+            </div>
+            <button id="email_submit" disabled>SIGN UP</button>
         </div>
-        <button id="email_submit" disabled>SIGN UP</button>
     </div>
-</div>
 
-<div id="footer" class="section">
-    <div id="flex">
-        <div id="btt" onclick="backtotop()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="186.44" height="380.604" viewBox="0 0 186.44 380.604">
-                <g id="Group_33" data-name="Group 33" transform="translate(-1341.394 -7661.599)">
-                  <path id="Path_38" data-name="Path 38" d="M5416,10542.462V10244.9" transform="translate(-3980 -2507.759)" fill="none" stroke="#100303" stroke-linecap="round" stroke-width="15"/>
-                  <path id="Path_39" data-name="Path 39" d="M5332,10289.472l82.614-82.613,82.613,82.613" transform="translate(-3980 -2537.759)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="15"/>
-                </g>
-              </svg>
-              
-            <p>Bike Back To The Top</p>
-            <div id="bttBackground"></div>
+    <div id="footer" class="section">
+        <div id="flex">
+            <div id="btt" onclick="backtotop()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="186.44" height="380.604" viewBox="0 0 186.44 380.604">
+                    <g id="Group_33" data-name="Group 33" transform="translate(-1341.394 -7661.599)">
+                    <path id="Path_38" data-name="Path 38" d="M5416,10542.462V10244.9" transform="translate(-3980 -2507.759)" fill="none" stroke="#100303" stroke-linecap="round" stroke-width="15"/>
+                    <path id="Path_39" data-name="Path 39" d="M5332,10289.472l82.614-82.613,82.613,82.613" transform="translate(-3980 -2537.759)" fill="none" stroke="#100303" stroke-linecap="round" stroke-linejoin="round" stroke-width="15"/>
+                    </g>
+                </svg>
+                
+                <p>Bike Back To The Top</p>
+                <div id="bttBackground"></div>
+            </div>
+            <div id="links">
+                <ul>
+                    <li>Contact</li>
+                    <li>Fit Finder</li>
+                    <li>Shipping And Returns</li>
+                    <li>About This Website</li>
+                    <li>Terms And Conditions</li>
+                    <li>Privacy</li>
+                </ul>
+            </div>
+            <div id="social">
+                <a href=""><img src="{% static 'img/icon/social/instagram.png' %}" alt=""><p>@sick_series</p></a>
+                <a href=""><img src="{% static 'img/icon/social/facebook.png' %}" alt=""><p>@sickseries</p></a>
+                <a href=""><img src="{% static 'img/icon/social/youtube.png' %}" alt=""><p>@SICK!</p></a>
+                <a href=""><img src="{% static 'img/icon/social/vimeo.png' %}" alt=""><p>CLICK TO CHECK OUT MOVIES</p></a>
+            </div>
         </div>
-        <div id="links">
-            <ul>
-                <li>Contact</li>
-                <li>Fit Finder</li>
-                <li>Shipping And Returns</li>
-                <li>About This Website</li>
-                <li>Terms And Conditions</li>
-                <li>Privacy</li>
-            </ul>
-        </div>
-        <div id="social">
-            <a href=""><img src="{% static 'img/icon/social/instagram.png' %}" alt=""><p>@sick_series</p></a>
-            <a href=""><img src="{% static 'img/icon/social/facebook.png' %}" alt=""><p>@sickseries</p></a>
-            <a href=""><img src="{% static 'img/icon/social/youtube.png' %}" alt=""><p>@SICK!</p></a>
-            <a href=""><img src="{% static 'img/icon/social/vimeo.png' %}" alt=""><p>CLICK TO CHECK OUT MOVIES</p></a>
-        </div>
+        <p id="copyright">© 2023 Sick Series</p>
     </div>
-    <p id="copyright">© 2023 Sick Series</p>
 </div>
 
 <div id="backtotop_portal" >

@@ -55,6 +55,8 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    orders = models.DecimalField(max_digits=9, decimal_places=0, default=0)
+
     # images = models.ManyToManyField(ProductImage, related_name='products')
 
     class Meta:

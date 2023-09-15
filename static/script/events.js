@@ -15,7 +15,7 @@ const main_content = document.getElementById("main_content");
 var scrollBar = document.querySelector('#dummy_full').offsetWidth - document.querySelector('#dummy_not_full').offsetWidth
 
 const lookbook_image = document.querySelectorAll('#lookbooks #image')
-
+const second_childs = document.querySelector('.second_childs')
 var detailed = false
 const gDetails = document.querySelector('#giveaway #extra')
 const giveaway = document.querySelector('#giveaway')
@@ -36,6 +36,8 @@ const first_slice = document.querySelector('#first_slice')
 const second_slice_portal = document.querySelector('#second_slice')
 const first_slice_portal = document.querySelector('#first_slice')
 
+const products_to_merge = document.querySelector("#products")
+
 const scroll = document.querySelector('#scroll')
 const mobile_scroll = document.querySelector('#scroll.mobile_only')
 const products = document.querySelector('#landing #scroll_frame')
@@ -46,10 +48,6 @@ const mo_lookbook_li = document.querySelectorAll('#tabs.mobile_only ul li')
 
 
 
-if (products !== null) {
-  var scrollGap = Math.max((products.scrollHeight - products.offsetHeight), (products.scrollWidth - products.offsetWidth)) || 0
-  var notch = (scrollGap + innerHeight);
-}
 
 
 const pimages = document.querySelectorAll('#products #product #images img');
@@ -215,10 +213,7 @@ document.addEventListener('click', function(event) {
 });
 
 const lefty = document.querySelector('#first_slice #lefty')
-if (document.querySelector('#fake') !== null) {
-  document.querySelector('#fake').style.height = (scrollGap + (1.2 * innerHeight) + lefty.offsetWidth) + "px"
-  // Use scrollGap as needed
-}
+
 if (emailinput !== null) {
   emailinput.addEventListener('input', function() {
     var email = emailinput.value;
@@ -239,7 +234,7 @@ if (mobile_scroll !== null) {
 }
 // mirror.style.height = setHeight + "px"
 if (section !== null) {
-  section.style.height = innerHeight + "px"
+  section.style.height = Math.min(innerHeight, 1000) + "px"
 }
 
 function adjustFixedDivWidth() {
@@ -564,7 +559,7 @@ window.addEventListener('resize', ()=> {
     menu_box = document.querySelector('#menu_slider #menu_box.pc_only');
   }
   mirror.style.height = setHeight + "px"
-  section.style.height = innerHeight + "px"
+  section.style.height = Math.min(innerHeight, 1000) + "px"
 
   des.style.height = ((fixed_box.getBoundingClientRect().top - des.getBoundingClientRect().top) - 40) + "px"
 
@@ -572,14 +567,13 @@ window.addEventListener('resize', ()=> {
   adjustFixedDivWidth();
 
   notch = (scrollGap + innerHeight);
-  scrollGap = Math.max((products.scrollHeight - products.offsetHeight), (products.scrollWidth - products.offsetWidth))
-
+  scrollGap = Math.max((products.scrollHeight - products.offsetHeight), (products.scrollWidth - (second_slice.offsetWidth * 70) / 100))
+  
   scrollBar = document.querySelector('#dummy_full').offsetWidth - document.querySelector('#dummy_not_full').offsetWidth
   if (mobile_scroll !== null) {
     setHeight = mobile_scroll.offsetTop
-    document.querySelector('#fake').style.height = ((products.scrollHeight - products.offsetHeight) + innerHeight) + "px"
+    document.querySelector('#fake').style.height = (scrollGap + Math.min(innerHeight, 1000) + lefty.offsetWidth) + "px"
   }
-  
 })
 
 function addTransitionDelay() {
@@ -590,6 +584,7 @@ function addTransitionDelay() {
     childShade.style.transitionDelay = delay + "s";
     delay += 0.05;
   });
+  return 1;
 }
 
 function giveawayDetails() {
@@ -607,7 +602,9 @@ function loadImages() {
     console.log("s");
   } else {
     pimages.forEach(element => {
-      element.src = element.getAttribute('data-src')
+      if(!element.className.includes('lazy')) {
+        element.src = element.getAttribute('data-src')
+      }
     });
     if (document.querySelector('#giveaway #image img') !== null) {
       document.querySelector('#giveaway #image img').src = document.querySelector('#giveaway #image img').getAttribute('data-src')
@@ -623,7 +620,45 @@ if (document.querySelector('#giveaway #image img') !== null) {
   });
 }
 
+function wrapTextWithSpans(element) {
+  const text = element.textContent;
+  const letters = text.split('');
+
+  // Clear the element's content
+  element.innerHTML = '';
+
+  letters.forEach((letter, index) => {
+      // Create a span element for each letter
+      const span = document.createElement('span');
+      span.textContent = letter;
+      span.classList.add('letter');
+
+      // Set the transition delay for the span
+      span.style.transitionDelay = `${index * 0.04}s`;
+
+      // Append the span to the element
+      element.appendChild(span);
+  });
+}
+
 function loaded() {
+  if(innerHeight < 800) {
+    if(products_to_merge) {
+      products_to_merge.classList.add("merge")
+    }
+  }
+  
+  if (document.querySelector('#fake') !== null) {
+    if (products !== null) {
+      var scrollGap = Math.max((products.scrollHeight - products.offsetHeight), (products.scrollWidth - ((second_slice.offsetWidth * 70) / 100)))
+      console.log((products.scrollWidth));
+      var notch = (scrollGap + innerHeight);
+    }
+    document.querySelector('#fake').style.height = (scrollGap + Math.min(innerHeight, 1000) + lefty.offsetWidth) + "px"
+  }
+  // const textContainer = document.querySelector('#big_screen_text h1');
+  // wrapTextWithSpans(textContainer);
+
   extra_onload()
   addTransitionDelay()
   loadImages()
@@ -698,6 +733,11 @@ function smoothScrollLeft(targetPosition, duration, content, container) {
   requestAnimationFrame(scrollAnimation);
 }
 
+window.onbeforeunload = function(){
+  myfun();
+  return 'Are you sure you want to leave?';
+};
+
 function easeInOutCubic(t, b, c, d) {
   t /= d / 2;
   if (t < 1) return c / 2 * t * t * t + b;
@@ -732,17 +772,23 @@ function grid_type() {
     document.querySelector('#lefty #grid_type').classList.remove("narrow")
   }
   if (document.querySelector('#fake') !== null) {
-    scrollGap = Math.max((products.scrollHeight - products.offsetHeight), (products.scrollWidth - products.offsetWidth))
-    document.querySelector('#fake').style.height = (scrollGap + (1.2 * innerHeight) + lefty.offsetWidth) + "px"
+    scrollGap = Math.max((products.scrollHeight - products.offsetHeight), (products.scrollWidth - ((second_slice.offsetWidth * 70) / 100)))
+    document.querySelector('#fake').style.height = (scrollGap + Math.min(innerHeight, 1000) + lefty.offsetWidth) + "px"
   }
   
 
   narrow = !narrow
 }
 
+
+
 function tick() {
   requestAnimationFrame(tick)
   scrollPosition = main_content.scrollTop;
+
+  // second_childs.forEach(element=> {
+  //   element.style.transform = "translateX(-50%) translateY(-"+ ( document.querySelector('#fake').offsetHeight - scrollPosition ) + "px)"
+  // })
 
   // if (scrollPosition >= notch) {
   //   section.classList.add('inactive');
@@ -777,6 +823,7 @@ function tick() {
         if (scrollPosition >= document.querySelector('#fake').offsetHeight) {
           section.style.top = (document.querySelector('#fake').offsetHeight)+"px"
           section.style.position = "relative"
+          
         } else {
           section.style.top = "0px"
           section.style.position = "sticky"
@@ -796,9 +843,10 @@ function tick() {
         var height = (scrollPosition * max_height) / (innerHeight / 2)
         var height_portal = (0 * max_height) / (innerHeight / 2)
 
-        mirror.style.maxHeight = (height + min_height) + "px"
+        mirror.style.maxHeight = Math.min((height + min_height), 1000) + "px"
         mirror.style.maxWidth = (Math.min(((width + min_width) - 30), (80 * first_slice.offsetWidth) / 100) + Math.max(0, (scrollPosition - document.querySelector('#fake').offsetHeight))) + "px"
-        mirror.style.height = getContentHeight(first_slice) + getContentHeight(second_slice) + "px"
+        mirror.style.height = Math.min(getContentHeight(first_slice) + getContentHeight(second_slice), 1000) + "px"
+        products.style.height = Math.min(getContentHeight(first_slice) + getContentHeight(second_slice), 1000) + "px"
 
         mirror_portal.style.maxHeight = min_height + "px"
         mirror_portal.style.maxWidth = (min_width - 30) + "px"
@@ -809,9 +857,15 @@ function tick() {
         if (scrollPosition >= document.querySelector('#fake').offsetHeight) {
           section.style.top = (document.querySelector('#fake').offsetHeight)+"px"
           section.style.position = "relative"
+          second_childs.style.position = "relative"
+          document.querySelector("#youtube").style.marginTop = "0";
+          second_childs.style.top = "0px";
         } else {
           section.style.top = "0px"
           section.style.position = "sticky"
+          second_childs.style.position = "fixed"
+          document.querySelector("#youtube").style.marginTop = "100vh";
+          second_childs.style.top = "1000px";
         }
       
       
@@ -832,7 +886,8 @@ function tick() {
 
   if (products !== null && document.querySelector('#fake') !== null) {
     products.scrollTop = Math.max(0, scrollPosition - (1.2 * innerHeight))
-    products.scrollLeft = Math.max(0, scrollPosition - (1.2 * innerHeight))
+    products.scrollLeft = Math.max(0, scrollPosition - (1.1 * innerHeight))
+    // console.log(Math.max(0, scrollPosition - (1.1 * innerHeight)));
     document.getElementById('banner').style.transform = "translate(-50%, -"+ Math.max(scrollPosition - document.querySelector('#fake').offsetHeight, 0) +"px)"
     // document.querySelector('#second_slice #mirror').style.transform = "translate(0px , "+ Math.min((scrollPosition * 100) / (innerHeight * (2/3)), 100) +"%)"
     document.querySelector('#first_slice h1').style.transform = "translate(0px , -"+ scrollPosition +"px)"
@@ -842,15 +897,20 @@ function tick() {
     } else {
       document.querySelector('#second_slice').classList.remove("round")
     }
+    var news_top = newsletter.offsetTop
     if(fake_lookbook.length > 0) {
-      if (scrollPosition >= fake_lookbook[0].offsetTop - innerHeight && scrollPosition <= newsletter.offsetTop - innerHeight) {
+      if (scrollPosition >= fake_lookbook[0].offsetTop - innerHeight && scrollPosition <= news_top - innerHeight) {
           lookbook.classList.add("stick")
-          lookbook.style.top = "0px"
-          // lookbook.style.left = "calc(50% - " + scrollBar / 2 + "px)"
-      } else if(scrollPosition >= newsletter.offsetTop - innerHeight) {
-        lookbook.style.top = newsletter.offsetTop - fake_lookbook[fake_lookbook.length - 1].offsetTop + "px"
+          lookbook.style.top = ((innerHeight - lookbook.offsetHeight)) +"px"
+      } else if(scrollPosition >= news_top - innerHeight) {
+        lookbook.style.top = (news_top - fake_lookbook[fake_lookbook.length - 1].offsetTop) + "px"
         lookbook.classList.remove("stick")
-        // lookbook.style.left = "calc(50% - " + 0 + "px)"
+
+        // document.querySelector('.last_childs').style.position = "sticky";
+          // document.querySelector('.last_childs').style.top = "-"+(Math.min(innerHeight, 900) * fake_lookbook.length) - Math.max(((innerHeight - lookbook.offsetHeight) / 2), 0) + "px"
+
+        document.querySelector('#youtube_parent').style.position = "relative";
+        document.querySelector('#youtube_parent').style.top = (Math.min(innerHeight, 900) * fake_lookbook.length) + "px"
       } 
       else {
           lookbook.classList.remove("stick")
@@ -858,8 +918,21 @@ function tick() {
           lookbook.style.left = "calc(50% - " + 0 + "px)"
       }
 
-      var c = Math.min(Math.round(Math.max(scrollPosition - (fake_lookbook[0].offsetTop - innerHeight) , 0) / 1000), fake_lookbook.length)
-
+      var c = Math.min(Math.round(Math.max(scrollPosition - ((fake_lookbook[0].offsetTop - Math.max(((innerHeight - lookbook.offsetHeight) / 2), 0)) - Math.min(innerHeight, 1000)) , 0) / 1000), fake_lookbook.length)
+      // console.log(lookbook.offsetTop + lookbook.offsetHeight);
+      // console.log(lookbook.offsetTop + " - " + scrollPosition);
+      if(fake_lookbook[0].offsetTop < lookbook.offsetTop + lookbook.offsetHeight && scrollPosition >= fake_lookbook[0].offsetTop - innerHeight && scrollPosition <= news_top - innerHeight) {
+        document.querySelector('#youtube_parent').style.position = "sticky";
+        document.querySelector('#youtube_parent').style.top = "-"+(document.querySelector('#youtube_parent').offsetHeight - Math.max(((innerHeight - lookbook.offsetHeight)), 0)) + "px"
+        
+        // document.querySelector('.last_childs').style.position = "sticky";
+        // document.querySelector('.last_childs').style.top = "-"+(Math.min(innerHeight, 900) * fake_lookbook.length) - Math.max(((innerHeight - lookbook.offsetHeight) / 2), 0) + "px"
+      } else {   
+        if(!scrollPosition >= news_top - innerHeight)  {   
+          document.querySelector('#youtube_parent').style.position = "relative";
+          // document.querySelector('#youtube_parent').style.top = Math.max(((innerHeight - lookbook.offsetHeight)), 0)+"px"
+        }
+      }
     }
   }
 

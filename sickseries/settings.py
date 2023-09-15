@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'sorl.thumbnail',
     'cities_light',
+
+    'scrape',
 ]
 
 MIDDLEWARE = [

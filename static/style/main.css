@@ -23,7 +23,7 @@ body {
     overflow-x: hidden;
     width: 100%;
     overflow: hidden;
-    transform: scale(0.8);
+    transform: scale(0.9);
     transform-origin: center;
     transition: 0.2s ease-in-out;
     background-color: var(--white);
@@ -601,8 +601,12 @@ body.menu #banner #search.mobile_only {
 #fake {
     height: 200vh;
 }
+
+
+
 #landing {
     height: 100vh;
+    max-height: 1000px;
     display: flex;
     overflow: visible;
     flex-direction: column;
@@ -1027,7 +1031,7 @@ body.goingtop * {
     padding-top: 10px;
 }
 #first_slice.animate #child_shade, #landing.loaded #child_shade {
-    max-height: 50vh;
+    max-height: 100vh;
     transform: translateY(0%);
 }
 #click_event {
@@ -1128,6 +1132,7 @@ body.goingtop * {
 }
 #products #product #images img {
     width: 100%;
+    height: 100%;
     position: absolute;
     opacity: 0;
     object-fit: cover;
@@ -1253,6 +1258,7 @@ body.goingtop * {
     overflow: hidden;
     aspect-ratio: 5/7;
     margin-top: 20px;
+    max-height: 950px;
     position: relative;
 }
 #youtube #big_wallpaper img {
@@ -1270,10 +1276,11 @@ body.goingtop * {
     height: calc(100% - 50px);
     display: flex;
     /* justify-content: space-between; */
-    justify-content: space-around;
+    justify-content: center;
     flex-direction: column;
     padding: 25px 0px;
     margin-top: 100px;
+    max-height: 900px;
     position: relative;
 }
 #lookbooks #background {
@@ -1614,6 +1621,7 @@ body.goingtop * {
     border-top-right-radius: 15px;
     height: calc(100% - 80px);
     position: fixed;
+    max-height: 1024px;
     bottom: 0px;
     transform: translate(-50%, 150%);
     transition: 0.1s;
@@ -1698,6 +1706,7 @@ body.portal #parent_portal {
 #portal #main_box #images #slider {
     width: min(25%, 100px);
     z-index: 2;
+    overflow-y: auto;
 }
 #portal #main_box #slider .image {
     width: 100%;
@@ -1705,6 +1714,11 @@ body.portal #parent_portal {
     border-radius: 14px;
     overflow: hidden;
     margin-bottom: 5px;
+}
+#portal #main_box #slider .image img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }
 
 
@@ -1900,6 +1914,7 @@ body.portal #parent_portal {
     border-radius: 30px;
     position: relative;
     padding-bottom: 40px;
+    max-width: 1658px;
     min-height: 1px;
     overflow: hidden;
 }
@@ -2030,8 +2045,8 @@ body.portal #parent_portal {
 }
 .fake_lookbook {
     width: 100%;
-    padding-bottom: 50vh;
-    height: 50vh;
+    height: 100vh;
+    max-height: 900px;
 }
 #lookbooks {
     position: relative;
@@ -2301,6 +2316,10 @@ body.menu #content #pcmenu svg {
     padding-left: 5%;
     background-color: transparent;
     border: 0px;
+}
+.fourk_only {
+    opacity: 0;
+    pointer-events: none;
 }
 #checkout #gitcard div {
     height: 40px;
@@ -3499,12 +3518,12 @@ input::-webkit-outer-spin-button,
     #landing #first_slice {
         height: calc(40vh - 100px);
         padding-top: 100px;
-        width: calc(100% - 50px);
+        width: calc(100% - 0px);
         gap: 50px;
     }
     #landing h1 {
         line-height: 100%;
-        font-size: 30vh;
+        font-size: clamp(16px, 30vh, 350px);
     }
     #landing #second_slice {
         width: calc(100% - 50px);
@@ -3525,7 +3544,7 @@ input::-webkit-outer-spin-button,
     #scroll_frame #products {
         grid-auto-flow: column;
         height: 100%;
-        width: auto;
+        width: 100%;
         left: 0px;
         transform: none;
         grid-template-rows: calc(50% - 5px) calc(50% - 5px);
@@ -3539,10 +3558,10 @@ input::-webkit-outer-spin-button,
         max-height: 100vh;
     }
     #scroll_frame #products.merge #click_event #child_shade #product {
-        aspect-ratio: 2/4;
+        aspect-ratio: 3/5;
     }
     #scroll_frame #products.merge #click_event #child_shade #product #images {
-        aspect-ratio: 3/5;
+        aspect-ratio: 3/4;
     }
     #scroll_frame #products.merge #click_event #child_shade #product #images img {
         height: 100%;
@@ -3557,23 +3576,24 @@ input::-webkit-outer-spin-button,
     #scroll_frame #products.merge #text h3 {
         font-size: 1.8rem;
         background-color: #E4E4E4;
-        padding: 10px 20px;
+        padding: 7px 15px;
         margin: -5px -10px;
         border-radius: 25px;
+        z-index: 10;
     }
     #scroll_frame #products.merge #click_event #child_shade #product {
         padding: 14px;
         height: calc(100% - 28px);
     }
     #scroll_frame #products.merge #click_event #child_shade #product h2 {
-        font-size: 2rem;
+        font-size: 1.8rem;
         overflow: hidden;
     }
     #scroll_frame #products.merge #click_event #child_shade #buttons {
         display: flex;
         position: absolute;
         bottom: 20px;
-        width: calc(100% - 20px);
+        width: calc(100% - 28px);
         margin: 0 auto;
         justify-content: space-between;
     }
@@ -3585,7 +3605,7 @@ input::-webkit-outer-spin-button,
         transition: 0.1s ease-in-out;
         font-size: 1.4rem;
         color: var(--black);
-        width: calc(50% - 10px);
+        width: calc(50% - 5px);
     }
     #scroll_frame #products.merge #click_event #child_shade #buttons button:hover {
         background-color: #cacaca;
@@ -3618,7 +3638,7 @@ input::-webkit-outer-spin-button,
     }
     #scroll_frame {
         width: calc(100% - 20px);
-        overflow: hidden;
+        /* overflow: hidden; */
         border-radius: 10px;
     }
     #banner {
@@ -3756,6 +3776,7 @@ input::-webkit-outer-spin-button,
 
     #lefty {
         width: 20%;
+        max-height: 1000px;
         opacity: 0;
         transition: 0.2s;
         position: absolute;
@@ -4142,6 +4163,51 @@ input::-webkit-outer-spin-button,
 @media (min-width: 1700px) {
     #landing.product_page #scroll_frame #products {
         grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+    /* #scroll_frame #products {
+        grid-template-rows: repeat(3, 1fr);
+    } */
+    /* #scroll_frame #products * {
+        width: 100%;
+    } */
+    #big_screen_text {
+        position: fixed;
+        display: flex;
+        align-items: flex-end;
+        height: 100vh;
+        bottom: 25px;
+        width: 100vw;
+        pointer-events: none;
+    }
+    #big_screen_text span {
+        line-height: 100%;
+        margin: 0px;
+        color: #bbbbbb;
+        padding: 0px;
+        white-space: nowrap;
+        font-size: calc(100vh - 1100px);
+        font-weight: 900;
+        font-family: oswald, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+}
+.second_childs {
+    width: 100%;
+}
+/* .last_childs {
+    width: 100%;
+    position: fixed;
+    top: 1200px;
+} */
+@media (min-height: 1000px) {
+    .second_childs {
+        position: fixed;
+        top: 1000px;
+        width: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    #landing #second_slice #mirror {
+        border-radius: 30px !important;
     }
 }
 * {

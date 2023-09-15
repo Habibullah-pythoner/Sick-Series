@@ -96,6 +96,15 @@ def get_cities_by_country(request):
 
     return JsonResponse({'error': 'Invalid request method'}, status=405)
 def products(request):
+    portal_product = request.GET.get('product', None)
+
+    try:
+        product = get_object_or_404(Product, pk=portal_product)
+        portal_open = True
+    except:
+        product = False
+        portal_open = False
+
     search = request.GET.get('s')
     cat = request.GET.get('c')
     category = Category.objects.all()
@@ -133,6 +142,8 @@ def products(request):
         data = {
             'searched': False,
             'result': result,
+            'product': product,
+            'portal_open': portal_open,
             'products': products,
             'category': category,
         }
@@ -155,7 +166,6 @@ def autocompelete(request):
         names = list()
         thumbnails = list()
         for product in result:
-            print(highlight(str(product.name), search))
             names.append(highlight(str(product.name), search))
         return JsonResponse([names[:5], thumbnails], safe=False)
     else:
@@ -163,6 +173,13 @@ def autocompelete(request):
 
 def index(request):
     portal_product = request.GET.get('product', None)
+
+    try:
+        product = get_object_or_404(Product, pk=portal_product)
+        portal_open = True
+    except:
+        product = False
+        portal_open = False
 
     user_agent = parse(request.META.get('HTTP_USER_AGENT', ''))
     category = Category.objects.all()
@@ -178,8 +195,8 @@ def index(request):
     else:
         logged = False
     
-    products = Product.objects.all().order_by('-created')[:15]
-    extra_products = Product.objects.all().order_by('-created')[15:23]
+    products = Product.objects.all().order_by('-orders')[:15]
+    extra_products = Product.objects.all().order_by('-orders')[15:22]
 
     lookbooks = Lookbook.objects.all()
 
@@ -205,14 +222,6 @@ def index(request):
     subs = format_number(int(youtube['subs']))
     views = format_number_with_commas(int(youtube['views']))
 
-    try:
-        product = get_object_or_404(Product, pk=portal_product)
-        portal_open = True
-    except:
-        product = False
-        portal_open = False
-
-    print(product)
     data = {
         'products': products,
         'extra_products': extra_products,
