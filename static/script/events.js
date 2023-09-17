@@ -212,7 +212,7 @@ document.addEventListener('click', function(event) {
     }
 });
 
-const lefty = document.querySelector('#first_slice #lefty')
+const lefty = document.querySelector('#first_slice #lefty.pc_only')
 
 if (emailinput !== null) {
   emailinput.addEventListener('input', function() {
@@ -567,7 +567,8 @@ window.addEventListener('resize', ()=> {
   adjustFixedDivWidth();
 
   notch = (scrollGap + innerHeight);
-  scrollGap = Math.max((products.scrollHeight - products.offsetHeight), (products.scrollWidth - (second_slice.offsetWidth * 70) / 100))
+  scrollGap = Math.max((products.scrollHeight), (products.scrollWidth - (second_slice.offsetWidth * 70) / 100))
+  console.log(scrollGap);
   
   scrollBar = document.querySelector('#dummy_full').offsetWidth - document.querySelector('#dummy_not_full').offsetWidth
   if (mobile_scroll !== null) {
@@ -640,7 +641,7 @@ function wrapTextWithSpans(element) {
       element.appendChild(span);
   });
 }
-
+var scrollGap
 function loaded() {
   if(innerHeight < 800) {
     if(products_to_merge) {
@@ -650,8 +651,7 @@ function loaded() {
   
   if (document.querySelector('#fake') !== null) {
     if (products !== null) {
-      var scrollGap = Math.max((products.scrollHeight - products.offsetHeight), (products.scrollWidth - ((second_slice.offsetWidth * 70) / 100)))
-      console.log((products.scrollWidth));
+      scrollGap = Math.max((products.scrollHeight), (products.scrollWidth - ((second_slice.offsetWidth * 70) / 100)))
       var notch = (scrollGap + innerHeight);
     }
     document.querySelector('#fake').style.height = (scrollGap + Math.min(innerHeight, 1000) + lefty.offsetWidth) + "px"
@@ -772,7 +772,7 @@ function grid_type() {
     document.querySelector('#lefty #grid_type').classList.remove("narrow")
   }
   if (document.querySelector('#fake') !== null) {
-    scrollGap = Math.max((products.scrollHeight - products.offsetHeight), (products.scrollWidth - ((second_slice.offsetWidth * 70) / 100)))
+    scrollGap = Math.max((products.scrollHeight), (products.scrollWidth - ((second_slice.offsetWidth * 70) / 100)))
     document.querySelector('#fake').style.height = (scrollGap + Math.min(innerHeight, 1000) + lefty.offsetWidth) + "px"
   }
   
@@ -879,6 +879,9 @@ function tick() {
         document.querySelector('#scroll p').innerHTML = "Join The Crew"
       }
       mirror.parentNode.classList.add("animate")
+      scrollGap = Math.max((products.scrollHeight), (products.scrollWidth - ((second_slice.offsetWidth * 70) / 100)))
+      document.querySelector('#fake').style.height = (scrollGap + Math.min(innerHeight, 1000) + lefty.offsetWidth) + "px"
+
     } else {
       mirror.parentNode.classList.remove("animate")
     }

@@ -265,7 +265,6 @@ body.menu #banner #nav {
     aspect-ratio: 1/1;
     border-radius: 50%;
     overflow: hidden;
-    background-color: var(--black);
 }
 #banner #profile img {
     width: 100%;
@@ -782,7 +781,7 @@ body.menu #banner #search.mobile_only {
 }
 
 #backtotop_portal {
-    width: 95%;
+    width: 100%;
     transform: translateX(-50%) scale(0.8);
     transform-origin: center;
     position: relative;
@@ -807,6 +806,7 @@ body.goingtop #backtotop_portal {
     transform: translateX(-50%) scale(1);
     border: 1px solid #10030300;
 }
+
 /* #backtotop_portal * {
     pointer-events: none;
 } */
@@ -2151,7 +2151,7 @@ body.menu #content #pcmenu svg {
     padding: 10px 15px;
     margin: -10px -15px;
     border-radius: 20px;
-    width: 400px;
+    width: 500px;
     display: flex;
     flex-direction: column;
     transition: 0.1s ease-in-out;
@@ -2734,6 +2734,16 @@ div.custom-select-container.box .custom-select-selected #text {
 }
 
 @media (max-width: 849px) {
+    /* #backtotop_portal #banner {
+        width: calc(100% - 20px);
+    } */
+    /* #backtotop_portal {
+        width: 95%;
+    } */
+    /* #backtotop_portal #landing #first_slice, #backtotop_portal #landing #second_slice {
+        width: calc(100% - 20px);
+        margin-left: 20px;
+    } */
     #banner #twins {
         margin-right: 10px;
     }
@@ -3071,15 +3081,15 @@ input::-webkit-outer-spin-button,
     #banner div#menu_box.pc_only {
         display: flex !important;
     }
-    #backtotop_portal #banner {
+    /* #backtotop_portal #banner {
         width: 100%;
-    }
+    } */
     #landing {
         width: calc(100% - 40px);
     }
-    #backtotop_portal {
+    /* #backtotop_portal {
         padding: 0px 25px;
-    }
+    } */
     #checkout div#cart {
         height: 100%;
     }
@@ -3420,8 +3430,11 @@ input::-webkit-outer-spin-button,
     #landing.product_page #first_slice {
         left: 50%;
         transform: translateX(-50%);
-        width: 95%;
+        width: 100%;
         /* position: absolute; */
+    }
+    #landing.product_page {
+        width: 95%;
     }
     #landing.product_page #first_slice #mirror {
         width: 100%;
@@ -3757,6 +3770,7 @@ input::-webkit-outer-spin-button,
         padding: 0px;
         margin: 0px;
         font-weight: 500;
+        transform: translateY(-1px);
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         /* letter-spacing: 1px; */
     }
